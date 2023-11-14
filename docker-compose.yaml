@@ -1,0 +1,21 @@
+name: vms
+services:
+  db:
+    image: postgres:15-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=vms_admin
+      - POSTGRES_PASSWORD=vms_password
+      - POSTGRES_DB=vms
+  # admin:
+  #   image: adminer
+  #   restart: always
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - 8080:8080
+
+networks:
+  default:
+    driver: bridge
