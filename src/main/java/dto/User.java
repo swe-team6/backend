@@ -12,7 +12,9 @@ public class User {
     //private Role role;
     private String phoneNumber;
     private String address;
-    private String fullName;
+    private String lastName;
+    private String middleName;
+    private String firstName;
     private String password;
     private Long govID;
     private String email;
