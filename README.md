@@ -41,6 +41,6 @@
 
 ## Deploy:
 
-1. `mvn clean deploy`
+1. `mvn clean package -Pproduction`
 
 <!-- 2. Copy .war file to the server path `/opt/tomcat/updated/webapps/` -->
