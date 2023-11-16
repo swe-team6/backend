@@ -78,7 +78,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.4.0</version>
 				<configuration>
-					<outputDirectory>${tomcat.home}</outputDirectory>
+					<outputDirectory>${output.dir}</outputDirectory>
 				</configuration>
 			</plugin>
 			<!-- <plugin>
