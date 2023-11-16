@@ -13,7 +13,7 @@
 	<groupId>com.vms</groupId>
 	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
+	<name>vms</name>
 	<description>SWE project</description>
 	<properties>
 		<java.version>17</java.version>
@@ -60,6 +60,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.name}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -76,8 +77,58 @@
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.4.0</version>
+				<configuration>
+					<outputDirectory>${tomcat.home}</outputDirectory>
+				</configuration>
 			</plugin>
+			<!-- <plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://35.207.161.15:8080/manager/text</url>
+					<server>TomcatServer</server>
+					<path>/vms</path>
+				</configuration>
+			</plugin> -->
 		</plugins>
+		<!-- <extensions> -->
+		<!-- Enabling the use of SSH -->
+		<!-- <extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh-external</artifactId>
+				<version>1.0-beta-6</version>
+			</extension>
+		</extensions> -->
 	</build>
+
+	<profiles>
+		<profile>
+			<id>production</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<!-- You can activate this profile using -Pproduction when building -->
+			</activation>
+			<properties>
+				<output.dir>/opt/tomcat/updated/webapps</output.dir>
+			</properties>
+		</profile>
+		<profile>
+			<id>development</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<output.dir>${project.build.directory}</output.dir>
+			</properties>
+		</profile>
+	</profiles>
+
+	<!-- <distributionManagement>
+		<repository>
+			<id>ssh-repository</id>
+			<url>scpexe://35.207.161.15/opt/tomcat/updated/webapps</url>
+		</repository>
+	</distributionManagement> -->
 
 </project>
