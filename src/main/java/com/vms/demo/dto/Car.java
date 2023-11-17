@@ -1,4 +1,4 @@
-package dto;
+package com.vms.demo.dto;
 
 import java.time.Duration;
 
