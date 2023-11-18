@@ -1,13 +1,17 @@
 package com.vms.demo.entity;
 
 import java.time.Duration;
+import java.util.Set;
 
 import com.vms.demo.types.CarStatus;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +25,7 @@ import lombok.Setter;
 public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "car_id")
     private Long carID;
     private int licensePlate;
     private String model;
@@ -31,6 +36,21 @@ public class CarEntity {
     private int mileageInterval;
     private Duration timeInterval;
     private String maintenanceJson;
+
+    @OneToOne(mappedBy = "car")
+    private DriverEntity driver;
+
+    @OneToOne(mappedBy = "car")
+    private BiddingEntity bidding;
+
+    @OneToMany(mappedBy = "car")
+    private Set<DriverHistoryEntity> histories;
+
+    @OneToMany(mappedBy = "car")
+    private Set<MaintenanceJobEntity> maintenanceJobs;
+
+    @OneToMany(mappedBy = "car")
+    private Set<FuelingJobEntity> fuelingJobs;
 
     @Override
     public int hashCode() {

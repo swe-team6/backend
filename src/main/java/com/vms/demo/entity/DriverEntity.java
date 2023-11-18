@@ -1,12 +1,15 @@
 package com.vms.demo.entity;
 
 import java.time.Duration;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.AllArgsConstructor;
@@ -39,4 +42,17 @@ public class DriverEntity {
     @PrimaryKeyJoinColumn
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "car_id", referencedColumnName = "car_id")
+    private CarEntity car;
+
+    @OneToMany(mappedBy = "driver")
+    private Set<RouteEntity> routes;
+
+    @OneToMany(mappedBy = "driver")
+    private Set<DriverHistoryEntity> histories;
+
+    @OneToMany(mappedBy = "driver")
+    private Set<FuelingJobEntity> fuelingJobs;
 }
