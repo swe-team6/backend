@@ -1,5 +1,9 @@
 package com.vms.demo.entity;
 
+import java.time.Duration;
+
+import com.vms.demo.types.CarStatus;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,19 +18,25 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Admin {
+public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long adminID;
-    private String email;
-    private String password;
-    private String name;
+    private Long carID;
+    private int licensePlate;
+    private String model;
+    private int year;
+    private int capacity;
+    private int mileage;
+    private CarStatus status;
+    private int mileageInterval;
+    private Duration timeInterval;
+    private String maintenanceJson;
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((adminID == null) ? 0 : adminID.hashCode());
+        result = prime * result + ((carID == null) ? 0 : carID.hashCode());
         return result;
     }
 
@@ -38,18 +48,12 @@ public class Admin {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Admin other = (Admin) obj;
-        if (adminID == null) {
-            if (other.adminID != null)
+        CarEntity other = (CarEntity) obj;
+        if (carID == null) {
+            if (other.carID != null)
                 return false;
-        } else if (!adminID.equals(other.adminID))
+        } else if (!carID.equals(other.carID))
             return false;
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "Admin [adminID=" + adminID + ", email=" + email + ", password=" + password + ", name=" + name + "]";
-    }
-
 }
