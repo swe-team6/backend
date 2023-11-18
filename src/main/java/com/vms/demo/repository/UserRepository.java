@@ -12,7 +12,7 @@ import com.vms.demo.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    List<User> findByUserId(Long userID);
+    List<User> findByUserID(Long userID);
 
     @Transactional
     void deleteByUserID(Long userID);
