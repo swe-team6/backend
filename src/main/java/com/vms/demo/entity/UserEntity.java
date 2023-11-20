@@ -28,15 +28,26 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userID;
+    @Column
     private RoleType role;
+    @Column
     private String phoneNumber;
+    @Column
     private String address;
+    @Column
     private String lastName;
+    @Column
     private String middleName;
+    @Column
     private String firstName;
+    @Column
     private String password;
+    @Column
     private Long govID;
+    @Column
     private String email;
+    @Column
+    private String pictureUrl;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -50,4 +61,13 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "fueler")
     private Set<FuelingJobEntity> fuelingJobs;
+
+    @Override
+    public String toString() {
+        return "UserEntity [userID=" + userID + ", role=" + role + ", phoneNumber=" + phoneNumber + ", address="
+                + address + ", lastName=" + lastName + ", middleName=" + middleName + ", firstName=" + firstName
+                + ", password=" + password + ", govID=" + govID + ", email=" + email + ", pictureUrl=" + pictureUrl
+                + ", driver=" + driver + ", chat=" + chat + ", maintenanceJobs=" + maintenanceJobs + ", fuelingJobs="
+                + fuelingJobs + "]";
+    }
 }

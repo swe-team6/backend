@@ -1,6 +1,5 @@
 package com.vms.demo.entity;
 
-import java.time.Duration;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -34,7 +33,7 @@ public class DriverEntity {
     /**
      * total time spent on the task.
      */
-    private Duration totalTime;
+    private Long totalTime;
     private int JobsDone;
 
     @OneToOne
@@ -55,4 +54,11 @@ public class DriverEntity {
 
     @OneToMany(mappedBy = "driver")
     private Set<FuelingJobEntity> fuelingJobs;
+
+    @Override
+    public String toString() {
+        return "DriverEntity [userID=" + userID + ", drivingLicense=" + drivingLicense + ", totalDistance="
+                + totalDistance + ", totalTime=" + totalTime + ", JobsDone=" + JobsDone + ", user=" + user + ", car="
+                + car + ", routes=" + routes + ", histories=" + histories + ", fuelingJobs=" + fuelingJobs + "]";
+    }
 }
