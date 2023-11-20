@@ -1,15 +1,14 @@
-package dto;
+package com.vms.demo.dto;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @Builder
-public class User {
+public class DriverDTO {
     private Long userID;
-    //private Role role;
     private String phoneNumber;
     private String address;
     private String lastName;
@@ -18,4 +17,8 @@ public class User {
     private String password;
     private Long govID;
     private String email;
+    private String drivingLicense;
+    private int totalDistance;
+    private Long totalTime;
+    private int JobsDone;
 }

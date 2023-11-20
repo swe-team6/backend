@@ -1,4 +1,4 @@
-package entity;
+package com.vms.demo.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Admin {
+public class AdminEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long adminID;
@@ -38,7 +38,7 @@ public class Admin {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Admin other = (Admin) obj;
+        AdminEntity other = (AdminEntity) obj;
         if (adminID == null) {
             if (other.adminID != null)
                 return false;
