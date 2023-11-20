@@ -1,12 +1,16 @@
 package com.vms.demo.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DriverCreateDTO {
     // private Long userID;
     private String email;
@@ -17,6 +21,7 @@ public class DriverCreateDTO {
     private String middleName;
     private String lastName;
     private Long govID;
-    private String drivingLicense;
     private String pictureUrl;
+
+    private String drivingLicense;
 }
