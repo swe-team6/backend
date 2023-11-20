@@ -33,8 +33,8 @@ public class DriverEntity {
     /**
      * total time spent on the task.
      */
-    private Long totalTime;
-    private int JobsDone;
+    private long totalTime;
+    private int jobsDone;
 
     @OneToOne
     @MapsId
@@ -58,7 +58,7 @@ public class DriverEntity {
     @Override
     public String toString() {
         return "DriverEntity [userID=" + userID + ", drivingLicense=" + drivingLicense + ", totalDistance="
-                + totalDistance + ", totalTime=" + totalTime + ", JobsDone=" + JobsDone + ", user=" + user + ", car="
+                + totalDistance + ", totalTime=" + totalTime + ", JobsDone=" + jobsDone + ", user=" + user + ", car="
                 + car + ", routes=" + routes + ", histories=" + histories + ", fuelingJobs=" + fuelingJobs + "]";
     }
 }

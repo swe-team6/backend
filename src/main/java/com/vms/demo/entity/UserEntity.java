@@ -44,7 +44,7 @@ public class UserEntity {
     private String password;
     @Column
     private Long govID;
-    @Column
+    @Column(unique = true)
     private String email;
     @Column
     private String pictureUrl;

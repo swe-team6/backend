@@ -1,6 +1,5 @@
 package com.vms.demo.entity;
 
-import java.time.Duration;
 import java.util.Set;
 
 import com.vms.demo.types.CarStatus;
@@ -31,10 +30,13 @@ public class CarEntity {
     private String model;
     private int year;
     private int capacity;
+    private String type;
+    private String pictureUrl;
     private int mileage;
     private CarStatus status;
     private int mileageInterval;
-    private Duration timeInterval;
+    private long timeInterval;
+    private String usageDescription;
     private String maintenanceJson;
 
     @OneToOne(mappedBy = "car")
@@ -75,5 +77,15 @@ public class CarEntity {
         } else if (!carID.equals(other.carID))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CarEntity [carID=" + carID + ", licensePlate=" + licensePlate + ", model=" + model + ", year=" + year
+                + ", capacity=" + capacity + ", type=" + type + ", pictureUrl=" + pictureUrl + ", mileage=" + mileage
+                + ", status=" + status + ", mileageInterval=" + mileageInterval + ", timeInterval=" + timeInterval
+                + ", usageDescription=" + usageDescription + ", maintenanceJson=" + maintenanceJson + ", driver="
+                + driver + ", bidding=" + bidding + ", histories=" + histories + ", maintenanceJobs=" + maintenanceJobs
+                + ", fuelingJobs=" + fuelingJobs + "]";
     }
 }
