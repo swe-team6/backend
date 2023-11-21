@@ -13,6 +13,19 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DriverDTO {
     private Long userID;
+    private String drivingLicense;
+    private int totalDistance;
+    private Long totalTime;
+    private int jobsDone;
+    private DriverUserDTO user;
+}
+
+@Setter
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+class DriverUserDTO {
     private String phoneNumber;
     private String address;
     private String lastName;
@@ -21,8 +34,4 @@ public class DriverDTO {
     private String password;
     private Long govID;
     private String email;
-    private String drivingLicense;
-    private int totalDistance;
-    private Long totalTime;
-    private int JobsDone;
 }
