@@ -41,8 +41,8 @@ public class CarService {
     }
 
     public List<CarDTO> getAllCars() {
-        List<CarEntity> drivers = carRepository.findAll();
-        return modelMapper.map(drivers, new TypeToken<List<CarDTO>>() {
+        List<CarEntity> cars = carRepository.findAll();
+        return modelMapper.map(cars, new TypeToken<List<CarDTO>>() {
         }.getType());
     }
 
