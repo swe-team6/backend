@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vms.demo.dto.route.RouteCreateDTO;
-import com.vms.demo.dto.route.RouteDTO;
+import com.vms.demo.dto.route.RouteFullDTO;
 import com.vms.demo.dto.route.RouteUpdateDTO;
 import com.vms.demo.entity.DriverEntity;
 import com.vms.demo.entity.RouteEntity;
@@ -40,18 +40,18 @@ public class RouteService {
                 .setMatchingStrategy(MatchingStrategies.LOOSE);
     }
 
-    public List<RouteDTO> getAllRoutes() {
+    public List<RouteFullDTO> getAllRoutes() {
         List<RouteEntity> routes = routeRepository.findAll();
-        return modelMapper.map(routes, new TypeToken<List<RouteDTO>>() {
+        return modelMapper.map(routes, new TypeToken<List<RouteFullDTO>>() {
         }.getType());
     }
 
-    public RouteDTO getRouteById(Long routeID) {
+    public RouteFullDTO getRouteById(Long routeID) {
         Optional<RouteEntity> routeOptional = routeRepository.findById(routeID);
 
         if (routeOptional.isPresent()) {
             RouteEntity route = routeOptional.get();
-            RouteDTO routeDTO = modelMapper.map(route, RouteDTO.class);
+            RouteFullDTO routeDTO = modelMapper.map(route, RouteFullDTO.class);
             return routeDTO;
         } else {
             throw new EntityNotFoundException("Route not found with id: " + routeID);
@@ -74,7 +74,7 @@ public class RouteService {
         return dto;
     }
 
-    public RouteDTO updateRoute(Long routeID, RouteUpdateDTO routeUpdateDTO) {
+    public RouteFullDTO updateRoute(Long routeID, RouteUpdateDTO routeUpdateDTO) {
         Optional<RouteEntity> routeOptional = routeRepository.findById(routeID);
         if (!routeOptional.isPresent()) {
             throw new EntityNotFoundException("Route not found with id: " + routeID);
@@ -101,7 +101,7 @@ public class RouteService {
             route.setDriver(driver);
         }
         route = routeRepository.save(route);
-        RouteDTO routeDTO = modelMapper.map(route, RouteDTO.class);
+        RouteFullDTO routeDTO = modelMapper.map(route, RouteFullDTO.class);
         return routeDTO;
     }
 }

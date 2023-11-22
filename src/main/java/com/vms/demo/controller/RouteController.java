@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vms.demo.dto.route.RouteCreateDTO;
-import com.vms.demo.dto.route.RouteDTO;
+import com.vms.demo.dto.route.RouteFullDTO;
 import com.vms.demo.dto.route.RouteUpdateDTO;
 import com.vms.demo.service.RouteService;
 
@@ -27,12 +27,12 @@ public class RouteController {
     private RouteService routeService;
 
     @GetMapping
-    public List<RouteDTO> getAllRoutes() {
+    public List<RouteFullDTO> getAllRoutes() {
         return routeService.getAllRoutes();
     }
 
     @GetMapping("{routeID}")
-    public RouteDTO retrieve(@PathVariable Long routeID) {
+    public RouteFullDTO retrieve(@PathVariable Long routeID) {
         return routeService.getRouteById(routeID);
     }
 
@@ -44,7 +44,7 @@ public class RouteController {
 
     @PutMapping("{routeID}")
     @ResponseStatus(HttpStatus.OK)
-    public RouteDTO update(@PathVariable Long routeID, @RequestBody RouteUpdateDTO routeUpdateDTO) {
+    public RouteFullDTO update(@PathVariable Long routeID, @RequestBody RouteUpdateDTO routeUpdateDTO) {
         return routeService.updateRoute(routeID, routeUpdateDTO);
     }
 }
