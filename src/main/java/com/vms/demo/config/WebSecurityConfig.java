@@ -15,6 +15,7 @@ public class WebSecurityConfig {
 		http.authorizeHttpRequests((authorize) -> authorize
 				.anyRequest().anonymous());
 		http.csrf(csrf -> csrf.disable());
+		http.cors(cors -> cors.disable());
 		return http.build();
 	}
 
