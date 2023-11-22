@@ -8,14 +8,12 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.vms.demo.dto.car.CarCreateDTO;
 import com.vms.demo.dto.car.CarDTO;
+import com.vms.demo.dto.car.CarUpdateDTO;
 import com.vms.demo.entity.CarEntity;
-import com.vms.demo.entity.DriverEntity;
 import com.vms.demo.repository.CarRepository;
 import com.vms.demo.repository.DriverRepository;
 import com.vms.demo.types.CarStatus;
@@ -68,19 +66,48 @@ public class CarService {
         return dto;
     }
 
-    public CarDTO assignDriver(Long driverID, Long carID) {
-        Optional<DriverEntity> driverOptional = driverRepository.findById(driverID);
-        CarEntity car = carRepository.findByCarID(carID);
-        if (!driverOptional.isPresent()) {
-            throw new EntityNotFoundException("Car not found with id: " + driverID);
+    public CarDTO updateCar(Long carID, CarUpdateDTO carUpdateDTO) {
+        Optional<CarEntity> carOptional = carRepository.findById(carID);
+        if (!carOptional.isPresent()) {
+            throw new EntityNotFoundException("Car not found with id: " + carID);
         }
-        DriverEntity driver = driverOptional.get();
-        if (driver.getCar() != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Requested driver is already assigned to a car.");
+        CarEntity car = carOptional.get();
+        if (carUpdateDTO.getLicensePlate() != null) {
+            car.setLicensePlate(carUpdateDTO.getLicensePlate());
         }
-
-        car.setDriver(driver);
+        if (carUpdateDTO.getModel() != null) {
+            car.setModel(carUpdateDTO.getModel());
+        }
+        if (carUpdateDTO.getYear() != 0) {
+            car.setYear(carUpdateDTO.getYear());
+        }
+        if (carUpdateDTO.getCapacity() != 0) {
+            car.setCapacity(carUpdateDTO.getCapacity());
+        }
+        if (carUpdateDTO.getType() != null) {
+            car.setType(carUpdateDTO.getType());
+        }
+        if (carUpdateDTO.getPictureUrl() != null) {
+            car.setPictureUrl(carUpdateDTO.getPictureUrl());
+        }
+        if (carUpdateDTO.getMileage() != 0) {
+            car.setMileage(carUpdateDTO.getMileage());
+        }
+        if (carUpdateDTO.getStatus() != null) {
+            car.setStatus(carUpdateDTO.getStatus());
+        }
+        if (carUpdateDTO.getMileageInterval() != 0) {
+            car.setMileageInterval(carUpdateDTO.getMileageInterval());
+        }
+        if (carUpdateDTO.getTimeInterval() != null) {
+            car.setTimeInterval(carUpdateDTO.getTimeInterval());
+        }
+        if (carUpdateDTO.getMaintenanceJson() != null) {
+            car.setMaintenanceJson(carUpdateDTO.getMaintenanceJson());
+        }
+        if (carUpdateDTO.getUsageDescription() != null) {
+            car.setUsageDescription(carUpdateDTO.getUsageDescription());
+        }
         car = carRepository.save(car);
         CarDTO carDTO = modelMapper.map(car, CarDTO.class);
         return carDTO;

@@ -7,6 +7,5 @@ import com.vms.demo.entity.CarEntity;
 
 @Repository
 public interface CarRepository extends JpaRepository<CarEntity, Long> {
-
     CarEntity findByCarID(Long carID);
 }
