@@ -14,8 +14,10 @@ import com.vms.demo.dto.driver.DriverCreateDTO;
 import com.vms.demo.dto.driver.DriverFullDTO;
 import com.vms.demo.dto.driver.DriverUpdateDTO;
 import com.vms.demo.dto.route.RouteDTO;
+import com.vms.demo.entity.CarEntity;
 import com.vms.demo.entity.DriverEntity;
 import com.vms.demo.entity.UserEntity;
+import com.vms.demo.repository.CarRepository;
 import com.vms.demo.repository.DriverRepository;
 import com.vms.demo.repository.UserRepository;
 import com.vms.demo.types.RoleType;
@@ -27,6 +29,9 @@ public class DriverService {
 
     @Autowired
     private DriverRepository driverRepository;
+
+    @Autowired
+    private CarRepository carRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -60,7 +65,7 @@ public class DriverService {
         }
     }
 
-    public List<RouteDTO> getAllRoutes(Long driverId) {
+    public List<RouteDTO> getDriverRoutes(Long driverId) {
         Optional<DriverEntity> driverOptional = driverRepository.findById(driverId);
         if (!driverOptional.isPresent()) {
             throw new EntityNotFoundException("Driver not found with id: " + driverId);
@@ -81,6 +86,29 @@ public class DriverService {
         driver = driverRepository.save(driver);
         DriverCreateDTO dto = modelMapper.map(user, DriverCreateDTO.class);
         return dto;
+    }
+
+    public DriverFullDTO assignCar(Long driverID, Long carID) {
+        Optional<DriverEntity> driverOptional = driverRepository.findById(driverID);
+        Optional<CarEntity> carOptional = carRepository.findById(carID);
+        if (!carOptional.isPresent()) {
+            throw new EntityNotFoundException("Car not found with id: " + carID);
+        }
+        if (!driverOptional.isPresent()) {
+            throw new EntityNotFoundException("Driver not found with id: " + driverID);
+        }
+        CarEntity car = carOptional.get();
+        DriverEntity driver = driverOptional.get();
+        System.out.println(driver);
+        // if (driver.getCar() != null) {
+        // throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+        // "Requested driver is already assigned to a car.");
+        // }
+
+        driver.setCar(car);
+        driver = driverRepository.save(driver);
+        DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
+        return driverDTO;
     }
 
     public DriverFullDTO updateDriver(Long driverID, DriverUpdateDTO driverUpdateDTO) {

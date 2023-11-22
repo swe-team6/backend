@@ -1,5 +1,7 @@
 package com.vms.demo.dto.driver;
 
+import com.vms.demo.types.CarStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +20,7 @@ public class DriverFullDTO {
     private Long totalTime;
     private int jobsDone;
     private DriverUserDTO user;
+    private DriverCarDTO car;
 }
 
 @Setter
@@ -34,4 +37,25 @@ class DriverUserDTO {
     private String password;
     private Long govID;
     private String email;
+}
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+class DriverCarDTO {
+    private Long carID;
+    private String licensePlate;
+    private String model;
+    private int year;
+    private int capacity;
+    private String type;
+    private String pictureUrl;
+    private int mileage;
+    private CarStatus status;
+    private int mileageInterval;
+    private Long timeInterval;
+    private String maintenanceJson;
+    private String usageDescription;
 }

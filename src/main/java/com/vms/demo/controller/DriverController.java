@@ -38,8 +38,8 @@ public class DriverController {
     }
 
     @GetMapping("{driverID}/routes")
-    public List<RouteDTO> retrieveRoutes(@PathVariable Long driverID) {
-        return driverService.getAllRoutes(driverID);
+    public List<RouteDTO> listRoutes(@PathVariable Long driverID) {
+        return driverService.getDriverRoutes(driverID);
     }
 
     @PostMapping
@@ -52,5 +52,11 @@ public class DriverController {
     @ResponseStatus(HttpStatus.OK)
     public DriverFullDTO update(@PathVariable Long driverID, @RequestBody DriverUpdateDTO driverUpdateDTO) {
         return driverService.updateDriver(driverID, driverUpdateDTO);
+    }
+
+    @PostMapping("{driverID}/assignCar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public DriverFullDTO assignCar(@PathVariable Long driverID, Long carID) {
+        return driverService.assignCar(driverID, carID);
     }
 }
