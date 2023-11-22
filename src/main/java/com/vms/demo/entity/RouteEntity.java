@@ -45,6 +45,6 @@ public class RouteEntity {
     public String toString() {
         return "RouteEntity [routeID=" + routeID + ", task=" + task + ", departurePoint=" + departurePoint
                 + ", destinationPoint=" + destinationPoint + ", dateCreated=" + dateCreated + ", status=" + status
-                + ", gMapsData=" + gMapsData + ", driver=" + driver + "]";
+                + ", gMapsData=" + gMapsData + ", driver=" + driver.getUserID() + "]";
     }
 }

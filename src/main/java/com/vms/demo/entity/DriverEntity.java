@@ -58,7 +58,7 @@ public class DriverEntity {
     @Override
     public String toString() {
         return "DriverEntity [userID=" + userID + ", drivingLicense=" + drivingLicense + ", totalDistance="
-                + totalDistance + ", totalTime=" + totalTime + ", JobsDone=" + jobsDone + ", user=" + user + ", car="
+                + totalDistance + ", totalTime=" + totalTime + ", JobsDone=" + jobsDone + ", car="
                 + car + ", routes=" + routes + ", histories=" + histories + ", fuelingJobs=" + fuelingJobs + "]";
     }
 }

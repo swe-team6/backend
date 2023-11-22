@@ -85,7 +85,8 @@ public class CarEntity {
                 + ", capacity=" + capacity + ", type=" + type + ", pictureUrl=" + pictureUrl + ", mileage=" + mileage
                 + ", status=" + status + ", mileageInterval=" + mileageInterval + ", timeInterval=" + timeInterval
                 + ", usageDescription=" + usageDescription + ", maintenanceJson=" + maintenanceJson + ", driver="
-                + driver + ", bidding=" + bidding + ", histories=" + histories + ", maintenanceJobs=" + maintenanceJobs
+                + driver.getUserID() + ", bidding=" + bidding + ", histories=" + histories + ", maintenanceJobs="
+                + maintenanceJobs
                 + ", fuelingJobs=" + fuelingJobs + "]";
     }
 }
