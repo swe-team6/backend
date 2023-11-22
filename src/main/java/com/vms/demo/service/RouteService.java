@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.vms.demo.dto.route.RouteCreateDTO;
 import com.vms.demo.dto.route.RouteDTO;
+import com.vms.demo.dto.route.RouteUpdateDTO;
 import com.vms.demo.entity.DriverEntity;
 import com.vms.demo.entity.RouteEntity;
 import com.vms.demo.repository.DriverRepository;
@@ -50,9 +51,7 @@ public class RouteService {
 
         if (routeOptional.isPresent()) {
             RouteEntity route = routeOptional.get();
-            // UserEntity user = route.getUser();
             RouteDTO routeDTO = modelMapper.map(route, RouteDTO.class);
-            // Map entities to DTO
             return routeDTO;
         } else {
             throw new EntityNotFoundException("Route not found with id: " + routeID);
@@ -75,19 +74,32 @@ public class RouteService {
         return dto;
     }
 
-    public RouteDTO assignDriver(Long routeID, Long driverID) {
-        Optional<DriverEntity> driverOptional = driverRepository.findById(routeID);
-        RouteEntity route = routeRepository.findByRouteID(routeID);
-        if (!driverOptional.isPresent()) {
+    public RouteDTO updateRoute(Long routeID, RouteUpdateDTO routeUpdateDTO) {
+        Optional<RouteEntity> routeOptional = routeRepository.findById(routeID);
+        if (!routeOptional.isPresent()) {
             throw new EntityNotFoundException("Route not found with id: " + routeID);
         }
-        DriverEntity driver = driverOptional.get();
-        // if (route.getDriver() != null) {
-        // throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-        // "Requested route is already assigned to a route.");
-        // }
-
-        route.setDriver(driver);
+        RouteEntity route = routeOptional.get();
+        if (routeUpdateDTO.getDeparturePoint() != null) {
+            route.setDeparturePoint(routeUpdateDTO.getDeparturePoint());
+        }
+        if (routeUpdateDTO.getDestinationPoint() != null) {
+            route.setDestinationPoint(routeUpdateDTO.getDestinationPoint());
+        }
+        if (routeUpdateDTO.getGMapsData() != null) {
+            route.setGMapsData(routeUpdateDTO.getGMapsData());
+        }
+        if (routeUpdateDTO.getStatus() != null) {
+            route.setStatus(routeUpdateDTO.getStatus());
+        }
+        if (routeUpdateDTO.getDriverID() != null) {
+            Optional<DriverEntity> driverOptional = driverRepository.findById(routeUpdateDTO.getDriverID());
+            if (!driverOptional.isPresent()) {
+                throw new EntityNotFoundException("Driver not found with id: " + routeUpdateDTO.getDriverID());
+            }
+            DriverEntity driver = driverOptional.get();
+            route.setDriver(driver);
+        }
         route = routeRepository.save(route);
         RouteDTO routeDTO = modelMapper.map(route, RouteDTO.class);
         return routeDTO;
