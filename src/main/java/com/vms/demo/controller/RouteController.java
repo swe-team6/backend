@@ -43,8 +43,31 @@ public class RouteController {
     }
 
     @PutMapping("{routeID}")
-    @ResponseStatus(HttpStatus.OK)
     public RouteFullDTO update(@PathVariable Long routeID, @RequestBody RouteUpdateDTO routeUpdateDTO) {
         return routeService.updateRoute(routeID, routeUpdateDTO);
+    }
+
+    @PostMapping("{routeID}/accept")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void accept(@PathVariable Long routeID) {
+        routeService.acceptRouteById(routeID);
+    }
+
+    @PostMapping("{routeID}/start")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void start(@PathVariable Long routeID) {
+        routeService.startRouteById(routeID);
+    }
+
+    @PostMapping("{routeID}/complete")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void complete(@PathVariable Long routeID) {
+        routeService.completeRouteById(routeID);
+    }
+
+    @PostMapping("{routeID}/cancel")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void cancel(@PathVariable Long routeID) {
+        routeService.cancelRouteById(routeID);
     }
 }

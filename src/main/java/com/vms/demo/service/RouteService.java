@@ -33,6 +33,14 @@ public class RouteService {
 
     private static ModelMapper modelMapper = new ModelMapper();
 
+    private RouteEntity getRouteOrExcept(Long routeID) throws EntityNotFoundException {
+        Optional<RouteEntity> routeOptional = routeRepository.findById(routeID);
+        if (!routeOptional.isPresent()) {
+            throw new EntityNotFoundException("Route not found with id: " + routeID);
+        }
+        return routeOptional.get();
+    }
+
     public static void main(String[] args) {
         modelMapper.getConfiguration()
                 .setFieldMatchingEnabled(true)
@@ -47,15 +55,33 @@ public class RouteService {
     }
 
     public RouteFullDTO getRouteById(Long routeID) {
-        Optional<RouteEntity> routeOptional = routeRepository.findById(routeID);
+        RouteEntity route = getRouteOrExcept(routeID);
+        RouteFullDTO routeDTO = modelMapper.map(route, RouteFullDTO.class);
+        return routeDTO;
+    }
 
-        if (routeOptional.isPresent()) {
-            RouteEntity route = routeOptional.get();
-            RouteFullDTO routeDTO = modelMapper.map(route, RouteFullDTO.class);
-            return routeDTO;
-        } else {
-            throw new EntityNotFoundException("Route not found with id: " + routeID);
-        }
+    public void acceptRouteById(Long routeID) {
+        RouteEntity route = getRouteOrExcept(routeID);
+        route.setStatus(RouteStatus.ACCEPTED);
+        routeRepository.save(route);
+    }
+
+    public void startRouteById(Long routeID) {
+        RouteEntity route = getRouteOrExcept(routeID);
+        route.setStatus(RouteStatus.STARTED);
+        routeRepository.save(route);
+    }
+
+    public void completeRouteById(Long routeID) {
+        RouteEntity route = getRouteOrExcept(routeID);
+        route.setStatus(RouteStatus.COMPLETED);
+        routeRepository.save(route);
+    }
+
+    public void cancelRouteById(Long routeID) {
+        RouteEntity route = getRouteOrExcept(routeID);
+        route.setStatus(RouteStatus.CANCELED);
+        routeRepository.save(route);
     }
 
     public RouteCreateDTO createRoute(RouteCreateDTO routeCreateDTO) {
@@ -75,11 +101,7 @@ public class RouteService {
     }
 
     public RouteFullDTO updateRoute(Long routeID, RouteUpdateDTO routeUpdateDTO) {
-        Optional<RouteEntity> routeOptional = routeRepository.findById(routeID);
-        if (!routeOptional.isPresent()) {
-            throw new EntityNotFoundException("Route not found with id: " + routeID);
-        }
-        RouteEntity route = routeOptional.get();
+        RouteEntity route = getRouteOrExcept(routeID);
         if (routeUpdateDTO.getDeparturePoint() != null) {
             route.setDeparturePoint(routeUpdateDTO.getDeparturePoint());
         }
