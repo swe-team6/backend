@@ -1,4 +1,4 @@
-package com.vms.demo.dto;
+package com.vms.demo.dto.driver;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DriverCreateDTO {
-    // private Long userID;
     private String email;
     private String phoneNumber;
     private String password;
@@ -22,6 +21,5 @@ public class DriverCreateDTO {
     private String lastName;
     private Long govID;
     private String pictureUrl;
-
     private String drivingLicense;
 }

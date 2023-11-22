@@ -3,7 +3,6 @@ package com.vms.demo.dto.route;
 import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.vms.demo.dto.DriverDTO;
 import com.vms.demo.types.RouteStatus;
 
 import lombok.AllArgsConstructor;
@@ -30,6 +29,4 @@ public class RouteDTO {
      */
     private RouteStatus status;
     private String gMapsData;
-
-    private DriverDTO driver;
 }

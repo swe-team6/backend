@@ -10,8 +10,10 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vms.demo.dto.DriverCreateDTO;
-import com.vms.demo.dto.DriverDTO;
+import com.vms.demo.dto.driver.DriverCreateDTO;
+import com.vms.demo.dto.driver.DriverFullDTO;
+import com.vms.demo.dto.driver.DriverUpdateDTO;
+import com.vms.demo.dto.route.RouteDTO;
 import com.vms.demo.entity.DriverEntity;
 import com.vms.demo.entity.UserEntity;
 import com.vms.demo.repository.DriverRepository;
@@ -38,24 +40,34 @@ public class DriverService {
                 .setMatchingStrategy(MatchingStrategies.LOOSE);
     }
 
-    public List<DriverDTO> getAllDrivers() {
+    public List<DriverFullDTO> getAllDrivers() {
         List<DriverEntity> drivers = driverRepository.findAll();
-        return modelMapper.map(drivers, new TypeToken<List<DriverDTO>>() {
+        return modelMapper.map(drivers, new TypeToken<List<DriverFullDTO>>() {
         }.getType());
     }
 
-    public DriverDTO getDriverById(Long driverId) {
+    public DriverFullDTO getDriverById(Long driverId) {
         Optional<DriverEntity> driverOptional = driverRepository.findById(driverId);
 
         if (driverOptional.isPresent()) {
             DriverEntity driver = driverOptional.get();
             // UserEntity user = driver.getUser();
-            DriverDTO driverDTO = modelMapper.map(driver, DriverDTO.class);
+            DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
             // Map entities to DTO
             return driverDTO;
         } else {
             throw new EntityNotFoundException("Driver not found with id: " + driverId);
         }
+    }
+
+    public List<RouteDTO> getAllRoutes(Long driverId) {
+        Optional<DriverEntity> driverOptional = driverRepository.findById(driverId);
+        if (!driverOptional.isPresent()) {
+            throw new EntityNotFoundException("Driver not found with id: " + driverId);
+        }
+        DriverEntity driver = driverOptional.get();
+        return modelMapper.map(driver.getRoutes(), new TypeToken<List<RouteDTO>>() {
+        }.getType());
     }
 
     public DriverCreateDTO createDriver(DriverCreateDTO driverCreateDTO) {
@@ -69,5 +81,50 @@ public class DriverService {
         driver = driverRepository.save(driver);
         DriverCreateDTO dto = modelMapper.map(user, DriverCreateDTO.class);
         return dto;
+    }
+
+    public DriverFullDTO updateDriver(Long driverID, DriverUpdateDTO driverUpdateDTO) {
+        Optional<DriverEntity> driverOptional = driverRepository.findById(driverID);
+        if (!driverOptional.isPresent()) {
+            throw new EntityNotFoundException("Driver not found with id: " + driverID);
+        }
+        DriverEntity driver = driverOptional.get();
+        UserEntity user = driver.getUser();
+
+        if (driverUpdateDTO.getDrivingLicense() != null) {
+            driver.setDrivingLicense(driverUpdateDTO.getDrivingLicense());
+        }
+        if (driverUpdateDTO.getPhoneNumber() != null) {
+            user.setPhoneNumber(driverUpdateDTO.getPhoneNumber());
+        }
+        if (driverUpdateDTO.getEmail() != null) {
+            user.setEmail(driverUpdateDTO.getEmail());
+        }
+        if (driverUpdateDTO.getAddress() != null) {
+            user.setAddress(driverUpdateDTO.getAddress());
+        }
+        if (driverUpdateDTO.getFirstName() != null) {
+            user.setFirstName(driverUpdateDTO.getFirstName());
+        }
+        if (driverUpdateDTO.getMiddleName() != null) {
+            user.setMiddleName(driverUpdateDTO.getMiddleName());
+        }
+        if (driverUpdateDTO.getLastName() != null) {
+            user.setLastName(driverUpdateDTO.getLastName());
+        }
+        if (driverUpdateDTO.getGovID() != null) {
+            user.setGovID(driverUpdateDTO.getGovID());
+        }
+        if (driverUpdateDTO.getPictureUrl() != null) {
+            user.setPictureUrl(driverUpdateDTO.getPictureUrl());
+        }
+        // TODO: Hash password
+        if (driverUpdateDTO.getPassword() != null) {
+            user.setPassword(driverUpdateDTO.getPassword());
+        }
+        userRepository.save(user);
+        driver = driverRepository.save(driver);
+        DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
+        return driverDTO;
     }
 }
