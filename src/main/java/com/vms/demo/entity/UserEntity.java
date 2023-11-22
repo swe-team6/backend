@@ -57,7 +57,7 @@ public class UserEntity {
     private DriverEntity chat;
 
     @OneToMany(mappedBy = "maintainer")
-    private Set<MaintenanceJobEntity> maintenanceJobs;
+    private Set<MainJobEntity> maintenanceJobs;
 
     @OneToMany(mappedBy = "fueler")
     private Set<FuelingJobEntity> fuelingJobs;

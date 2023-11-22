@@ -20,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class MaintenanceJobEntity {
+public class MainJobEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long maintenanceJobID;

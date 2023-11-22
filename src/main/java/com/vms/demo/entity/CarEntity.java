@@ -49,7 +49,7 @@ public class CarEntity {
     private Set<DriverHistoryEntity> histories;
 
     @OneToMany(mappedBy = "car")
-    private Set<MaintenanceJobEntity> maintenanceJobs;
+    private Set<MainJobEntity> maintenanceJobs;
 
     @OneToMany(mappedBy = "car")
     private Set<FuelingJobEntity> fuelingJobs;
