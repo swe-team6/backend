@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CarDTO {
     private Long carID;
-    private int licensePlate;
+    private String licensePlate;
     private String model;
     private int year;
     private int capacity;

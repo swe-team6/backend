@@ -1,7 +1,5 @@
 package com.vms.demo.dto.car;
 
-import org.springframework.data.annotation.ReadOnlyProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarCreateDTO {
-    @ReadOnlyProperty
-    private Long carID;
-    private int licensePlate;
+    private String licensePlate;
     private String model;
     private int year;
     private int capacity;

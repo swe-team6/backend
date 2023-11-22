@@ -26,7 +26,7 @@ public class CarEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "car_id")
     private Long carID;
-    private int licensePlate;
+    private String licensePlate;
     private String model;
     private int year;
     private int capacity;
