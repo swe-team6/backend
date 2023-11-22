@@ -13,8 +13,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarDTO {
-    private Long carID;
+public class CarUpdateDTO {
     private String licensePlate;
     private String model;
     private int year;
@@ -27,17 +26,4 @@ public class CarDTO {
     private Long timeInterval;
     private String maintenanceJson;
     private String usageDescription;
-    private CarDriverDTO driver;
-}
-
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-class CarDriverDTO {
-    private Long userID;
-    private String lastName;
-    private String middleName;
-    private String firstName;
 }
