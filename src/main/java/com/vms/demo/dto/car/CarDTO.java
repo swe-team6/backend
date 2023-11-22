@@ -37,7 +37,7 @@ public class CarDTO {
 @NoArgsConstructor
 class CarDriverDTO {
     private Long userID;
-    private String lastName;
-    private String middleName;
-    private String firstName;
+    private String userLastName;
+    private String userMiddleName;
+    private String userFirstName;
 }
