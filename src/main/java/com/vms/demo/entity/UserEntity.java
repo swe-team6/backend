@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PreRemove;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -69,5 +70,17 @@ public class UserEntity {
                 + ", password=" + password + ", govID=" + govID + ", email=" + email + ", pictureUrl=" + pictureUrl
                 + ", driver=" + driver + ", chat=" + chat + ", maintenanceJobs=" + maintenanceJobs + ", fuelingJobs="
                 + fuelingJobs + "]";
+    }
+
+    @PreRemove
+    public void preRemove() {
+        for (MainJobEntity job : maintenanceJobs) {
+            job.setMaintainer(null);
+        }
+        this.maintenanceJobs = null;
+        for (FuelJobEntity job : fuelingJobs) {
+            job.setFueler(null);
+        }
+        this.fuelingJobs = null;
     }
 }

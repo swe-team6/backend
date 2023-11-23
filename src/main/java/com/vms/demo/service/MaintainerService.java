@@ -1,7 +1,6 @@
 package com.vms.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -36,17 +35,17 @@ public class MaintainerService {
     }
 
     public List<MaintainerFullDTO> getAllMaintainers() {
-        List<UserEntity> maintainers = maintainerRepository.findAll();
+        List<UserEntity> maintainers = maintainerRepository.findByRole(RoleType.MAINTAINER);
         return modelMapper.map(maintainers, new TypeToken<List<MaintainerFullDTO>>() {
         }.getType());
     }
 
     public MaintainerFullDTO getMaintainerById(Long maintainerID) {
-        Optional<UserEntity> maintainerOptional = maintainerRepository.findById(maintainerID);
-        if (!maintainerOptional.isPresent()) {
+        List<UserEntity> maintainers = maintainerRepository.findByUserIDAndRole(maintainerID, RoleType.MAINTAINER);
+        if (maintainers.isEmpty()) {
             throw new EntityNotFoundException("Maintainer not found with id: " + maintainerID);
         }
-        UserEntity maintainer = maintainerOptional.get();
+        UserEntity maintainer = maintainers.get(0);
         MaintainerFullDTO maintainerDTO = modelMapper.map(maintainer, MaintainerFullDTO.class);
         return maintainerDTO;
     }
@@ -60,11 +59,11 @@ public class MaintainerService {
     }
 
     public MaintainerDTO updateMaintainer(Long maintainerID, MaintainerUpdateDTO maintainerUpdateDTO) {
-        Optional<UserEntity> maintainerOptional = maintainerRepository.findById(maintainerID);
-        if (!maintainerOptional.isPresent()) {
+        List<UserEntity> maintainers = maintainerRepository.findByUserIDAndRole(maintainerID, RoleType.MAINTAINER);
+        if (maintainers.isEmpty()) {
             throw new EntityNotFoundException("Maintainer not found with id: " + maintainerID);
         }
-        UserEntity maintainer = maintainerOptional.get();
+        UserEntity maintainer = maintainers.get(0);
         if (maintainerUpdateDTO.getPhoneNumber() != null) {
             maintainer.setPhoneNumber(maintainerUpdateDTO.getPhoneNumber());
         }
@@ -99,6 +98,7 @@ public class MaintainerService {
     }
 
     public void deleteMaintainer(Long maintainerID) {
-        maintainerRepository.deleteById(maintainerID);
+        // TODO: fix
+        maintainerRepository.deleteByUserIDAndRole(maintainerID, RoleType.MAINTAINER);
     }
 }
