@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vms.demo.dto.car.CarCreateDTO;
-import com.vms.demo.dto.car.CarDTO;
 import com.vms.demo.dto.car.CarUpdateDTO;
+import com.vms.demo.dto.car.CarWithDriverDTO;
 import com.vms.demo.service.CarService;
 
 import jakarta.validation.Valid;
@@ -27,12 +27,12 @@ public class CarController {
     private CarService carService;
 
     @GetMapping
-    public List<CarDTO> getAllCars() {
+    public List<CarWithDriverDTO> getAllCars() {
         return carService.getAllCars();
     }
 
     @GetMapping("{carID}")
-    public CarDTO retrieve(@PathVariable Long carID) {
+    public CarWithDriverDTO retrieve(@PathVariable Long carID) {
         return carService.getCarById(carID);
     }
 
@@ -44,7 +44,7 @@ public class CarController {
 
     @PutMapping("{carID}")
     @ResponseStatus(HttpStatus.OK)
-    public CarDTO update(@PathVariable Long carID, @RequestBody CarUpdateDTO carUpdateDTO) {
+    public CarWithDriverDTO update(@PathVariable Long carID, @RequestBody CarUpdateDTO carUpdateDTO) {
         return carService.updateCar(carID, carUpdateDTO);
     }
 }

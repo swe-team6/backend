@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vms.demo.dto.car.CarCreateDTO;
-import com.vms.demo.dto.car.CarDTO;
 import com.vms.demo.dto.car.CarUpdateDTO;
+import com.vms.demo.dto.car.CarWithDriverDTO;
 import com.vms.demo.entity.CarEntity;
 import com.vms.demo.repository.CarRepository;
 import com.vms.demo.repository.DriverRepository;
@@ -38,19 +38,19 @@ public class CarService {
                 .setMatchingStrategy(MatchingStrategies.LOOSE);
     }
 
-    public List<CarDTO> getAllCars() {
+    public List<CarWithDriverDTO> getAllCars() {
         List<CarEntity> cars = carRepository.findAll();
-        return modelMapper.map(cars, new TypeToken<List<CarDTO>>() {
+        return modelMapper.map(cars, new TypeToken<List<CarWithDriverDTO>>() {
         }.getType());
     }
 
-    public CarDTO getCarById(Long carID) {
+    public CarWithDriverDTO getCarById(Long carID) {
         Optional<CarEntity> carOptional = carRepository.findById(carID);
 
         if (carOptional.isPresent()) {
             CarEntity car = carOptional.get();
             // UserEntity user = car.getUser();
-            CarDTO carDTO = modelMapper.map(car, CarDTO.class);
+            CarWithDriverDTO carDTO = modelMapper.map(car, CarWithDriverDTO.class);
             // Map entities to DTO
             return carDTO;
         } else {
@@ -66,7 +66,7 @@ public class CarService {
         return dto;
     }
 
-    public CarDTO updateCar(Long carID, CarUpdateDTO carUpdateDTO) {
+    public CarWithDriverDTO updateCar(Long carID, CarUpdateDTO carUpdateDTO) {
         Optional<CarEntity> carOptional = carRepository.findById(carID);
         if (!carOptional.isPresent()) {
             throw new EntityNotFoundException("Car not found with id: " + carID);
@@ -109,7 +109,7 @@ public class CarService {
             car.setUsageDescription(carUpdateDTO.getUsageDescription());
         }
         car = carRepository.save(car);
-        CarDTO carDTO = modelMapper.map(car, CarDTO.class);
+        CarWithDriverDTO carDTO = modelMapper.map(car, CarWithDriverDTO.class);
         return carDTO;
     }
 }

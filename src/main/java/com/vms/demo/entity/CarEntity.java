@@ -53,7 +53,7 @@ public class CarEntity {
     private Set<MainJobEntity> maintenanceJobs;
 
     @OneToMany(mappedBy = "car")
-    private Set<FuelingJobEntity> fuelingJobs;
+    private Set<FuelJobEntity> fuelingJobs;
 
     @Override
     public int hashCode() {
