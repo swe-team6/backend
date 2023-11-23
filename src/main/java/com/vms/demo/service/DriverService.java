@@ -51,24 +51,25 @@ public class DriverService {
         }.getType());
     }
 
-    public DriverFullDTO getDriverById(Long driverId) {
-        Optional<DriverEntity> driverOptional = driverRepository.findById(driverId);
-
-        if (driverOptional.isPresent()) {
-            DriverEntity driver = driverOptional.get();
-            // UserEntity user = driver.getUser();
-            DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
-            // Map entities to DTO
-            return driverDTO;
-        } else {
-            throw new EntityNotFoundException("Driver not found with id: " + driverId);
-        }
+    public void deleteDriverById(Long driverID) {
+        driverRepository.deleteById(driverID);
     }
 
-    public List<RouteDTO> getDriverRoutes(Long driverId) {
-        Optional<DriverEntity> driverOptional = driverRepository.findById(driverId);
+    public DriverFullDTO getDriverById(Long driverID) {
+        Optional<DriverEntity> driverOptional = driverRepository.findById(driverID);
+
         if (!driverOptional.isPresent()) {
-            throw new EntityNotFoundException("Driver not found with id: " + driverId);
+            throw new EntityNotFoundException("Driver not found with id: " + driverID);
+        }
+        DriverEntity driver = driverOptional.get();
+        DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
+        return driverDTO;
+    }
+
+    public List<RouteDTO> getDriverRoutes(Long driverID) {
+        Optional<DriverEntity> driverOptional = driverRepository.findById(driverID);
+        if (!driverOptional.isPresent()) {
+            throw new EntityNotFoundException("Driver not found with id: " + driverID);
         }
         DriverEntity driver = driverOptional.get();
         return modelMapper.map(driver.getRoutes(), new TypeToken<List<RouteDTO>>() {
@@ -107,6 +108,17 @@ public class DriverService {
 
         driver.setCar(car);
         driver = driverRepository.save(driver);
+        DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
+        return driverDTO;
+    }
+
+    public DriverFullDTO unassignCar(Long driverID) {
+        Optional<DriverEntity> driverOptional = driverRepository.findById(driverID);
+        if (!driverOptional.isPresent()) {
+            throw new EntityNotFoundException("Driver not found with id: " + driverID);
+        }
+        DriverEntity driver = driverOptional.get();
+        driver.setCar(null);
         DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
         return driverDTO;
     }

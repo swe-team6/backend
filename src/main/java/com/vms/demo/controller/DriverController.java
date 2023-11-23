@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,5 +59,17 @@ public class DriverController {
     @ResponseStatus(HttpStatus.CREATED)
     public DriverFullDTO assignCar(@PathVariable Long driverID, Long carID) {
         return driverService.assignCar(driverID, carID);
+    }
+
+    @PostMapping("{driverID}/unassignCar")
+    @ResponseStatus(HttpStatus.OK)
+    public DriverFullDTO unassignCar(@PathVariable Long driverID) {
+        return driverService.unassignCar(driverID);
+    }
+
+    @DeleteMapping("{driverID}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long driverID) {
+        driverService.deleteDriverById(driverID);
     }
 }
