@@ -64,9 +64,9 @@ public class MainJobService {
     }
 
     public MainJobCreateDTO createMainJob(MainJobCreateDTO mainJobCreateDTO) {
-        Optional<UserEntity> userOptional = userRepository.findById(mainJobCreateDTO.getMaintainerID());
+        Optional<UserEntity> userOptional = userRepository.findById(mainJobCreateDTO.getMaintainerUserID());
         if (!userOptional.isPresent()) {
-            throw new EntityNotFoundException("Invalid user id (not found): " + mainJobCreateDTO.getMaintainerID());
+            throw new EntityNotFoundException("Invalid user id (not found): " + mainJobCreateDTO.getMaintainerUserID());
         }
         UserEntity user = userOptional.get();
         if (user.getRole() != RoleType.MAINTAINER) {

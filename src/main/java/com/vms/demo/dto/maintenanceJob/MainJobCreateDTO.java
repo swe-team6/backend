@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MainJobCreateDTO {
     private Long carID;
-    private Long maintainerID;
+    private Long maintainerUserID;
     private String description;
     /**
      * a short description of the service type
