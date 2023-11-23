@@ -115,4 +115,8 @@ public class MainJobService {
         MainJobFullDTO mainJobDTO = modelMapper.map(mainJob, MainJobFullDTO.class);
         return mainJobDTO;
     }
+
+    public void deleteMainJob(Long mainJobID) {
+        mainJobRepository.deleteById(mainJobID);
+    }
 }
