@@ -60,7 +60,7 @@ public class UserEntity {
     private Set<MainJobEntity> maintenanceJobs;
 
     @OneToMany(mappedBy = "fueler")
-    private Set<FuelingJobEntity> fuelingJobs;
+    private Set<FuelJobEntity> fuelingJobs;
 
     @Override
     public String toString() {

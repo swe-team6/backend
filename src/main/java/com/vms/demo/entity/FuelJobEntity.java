@@ -20,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class FuelingJobEntity {
+public class FuelJobEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fuelingJobID;

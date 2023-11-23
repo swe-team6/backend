@@ -54,7 +54,7 @@ public class DriverEntity {
     private Set<DriverHistoryEntity> histories;
 
     @OneToMany(mappedBy = "driver")
-    private Set<FuelingJobEntity> fuelingJobs;
+    private Set<FuelJobEntity> fuelingJobs;
 
     @Override
     public String toString() {
