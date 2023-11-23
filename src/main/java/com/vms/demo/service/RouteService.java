@@ -126,4 +126,8 @@ public class RouteService {
         RouteFullDTO routeDTO = modelMapper.map(route, RouteFullDTO.class);
         return routeDTO;
     }
+
+    public void deleteRoute(Long routeID) {
+        routeRepository.deleteById(routeID);
+    }
 }
