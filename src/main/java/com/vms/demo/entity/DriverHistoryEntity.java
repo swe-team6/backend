@@ -38,10 +38,10 @@ public class DriverHistoryEntity {
     private int maintenanceCost;
 
     @ManyToOne
-    @JoinColumn(name = "car_id", nullable = false)
+    @JoinColumn(name = "car_id", nullable = true)
     private CarEntity car;
 
     @ManyToOne
-    @JoinColumn(name = "driver_id", nullable = false)
+    @JoinColumn(name = "driver_id", nullable = true)
     private DriverEntity driver;
 }

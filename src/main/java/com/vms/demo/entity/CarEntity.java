@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.vms.demo.types.CarStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,7 +43,7 @@ public class CarEntity {
     @OneToOne(mappedBy = "car")
     private DriverEntity driver;
 
-    @OneToOne(mappedBy = "car")
+    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
     private BiddingEntity bidding;
 
     @OneToMany(mappedBy = "car")

@@ -53,7 +53,7 @@ public class UserEntity {
     @PrimaryKeyJoinColumn
     private DriverEntity driver;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private DriverEntity chat;
 
     @OneToMany(mappedBy = "maintainer")

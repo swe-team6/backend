@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PreRemove;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +37,7 @@ public class DriverEntity {
     private long totalTime;
     private int jobsDone;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @PrimaryKeyJoinColumn
     @JoinColumn(name = "user_id")
@@ -46,7 +47,7 @@ public class DriverEntity {
     @JoinColumn(name = "car_id", referencedColumnName = "car_id")
     private CarEntity car;
 
-    @OneToMany(mappedBy = "driver")
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
     private Set<RouteEntity> routes;
 
     @OneToMany(mappedBy = "driver")
@@ -60,5 +61,10 @@ public class DriverEntity {
         return "DriverEntity [userID=" + userID + ", drivingLicense=" + drivingLicense + ", totalDistance="
                 + totalDistance + ", totalTime=" + totalTime + ", JobsDone=" + jobsDone + ", car="
                 + car + ", routes=" + routes + ", histories=" + histories + ", fuelingJobs=" + fuelingJobs + "]";
+    }
+
+    @PreRemove
+    public void preRemove() {
+        this.car = null;
     }
 }

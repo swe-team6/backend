@@ -39,10 +39,10 @@ public class MainJobEntity {
     // private Image replacedImg;
 
     @ManyToOne
-    @JoinColumn(name = "car_id", nullable = false)
+    @JoinColumn(name = "car_id", nullable = true)
     private CarEntity car;
 
     @ManyToOne
-    @JoinColumn(name = "maintainer_id", nullable = false)
+    @JoinColumn(name = "maintainer_id", nullable = true)
     private UserEntity maintainer;
 }

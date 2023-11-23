@@ -30,10 +30,10 @@ public class ChatEntity {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     private ZonedDateTime lastUpdated;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
     private Set<MessageEntity> messages;
 }
