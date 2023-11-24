@@ -55,11 +55,11 @@ public class CarService {
         }
     }
 
-    public CarCreateDTO createCar(CarCreateDTO driverCreateDTO) {
+    public CarWithDriverDTO createCar(CarCreateDTO driverCreateDTO) {
         CarEntity e = modelMapper.map(driverCreateDTO, CarEntity.class);
         e.setStatus(CarStatus.INACTIVE);
         e = carRepository.save(e);
-        CarCreateDTO dto = modelMapper.map(e, CarCreateDTO.class);
+        CarWithDriverDTO dto = modelMapper.map(e, CarWithDriverDTO.class);
         return dto;
     }
 
@@ -108,5 +108,9 @@ public class CarService {
         car = carRepository.save(car);
         CarWithDriverDTO carDTO = modelMapper.map(car, CarWithDriverDTO.class);
         return carDTO;
+    }
+
+    public void deleteCar(Long carID) {
+        carRepository.deleteById(carID);
     }
 }
