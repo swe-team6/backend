@@ -35,7 +35,7 @@ public class MaintainerService {
     }
 
     public List<MaintainerFullDTO> getAllMaintainers() {
-        List<UserEntity> maintainers = maintainerRepository.findByRole(RoleType.MAINTAINER);
+        List<UserEntity> maintainers = maintainerRepository.findByRoleOrderByUserIDAsc(RoleType.MAINTAINER);
         return modelMapper.map(maintainers, new TypeToken<List<MaintainerFullDTO>>() {
         }.getType());
     }

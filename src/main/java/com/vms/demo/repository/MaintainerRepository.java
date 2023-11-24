@@ -13,7 +13,7 @@ import com.vms.demo.types.RoleType;
 public interface MaintainerRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findByUserIDAndRole(Long userID, RoleType role);
 
-    List<UserEntity> findByRole(RoleType role);
+    List<UserEntity> findByRoleOrderByUserIDAsc(RoleType role);
 
     @Transactional
     Long deleteByUserIDAndRole(Long userID, RoleType role);
