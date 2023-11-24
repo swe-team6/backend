@@ -16,7 +16,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FuelJobUpdateDTO {
-    private Long fuelingJobID;
     private int fuelAmount;
     private int fuelCost;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
