@@ -77,15 +77,18 @@ public class DriverService {
         }.getType());
     }
 
-    public DriverCreateDTO createDriver(DriverCreateDTO driverCreateDTO) {
+    public DriverFullDTO createDriver(DriverCreateDTO driverCreateDTO) {
         UserEntity user = modelMapper.map(driverCreateDTO, UserEntity.class);
         user.setRole(RoleType.DRIVER);
         DriverEntity driver = user.getDriver();
         user.setDriver(null);
         user = userRepository.save(user);
         driver.setUser(user);
+        driver.setDrivingLicense(driverCreateDTO.getDrivingLicense());
+        driver.setTotalDistance(0);
+        driver.setTotalTime(0);
         driver = driverRepository.save(driver);
-        DriverCreateDTO dto = modelMapper.map(user, DriverCreateDTO.class);
+        DriverFullDTO dto = modelMapper.map(user, DriverFullDTO.class);
         return dto;
     }
 

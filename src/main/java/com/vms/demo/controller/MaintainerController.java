@@ -40,7 +40,7 @@ public class MaintainerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MaintainerCreateDTO create(@Valid @RequestBody MaintainerCreateDTO maintainerCreateDTO) {
+    public MaintainerFullDTO create(@Valid @RequestBody MaintainerCreateDTO maintainerCreateDTO) {
         return maintainerService.createMaintainer(maintainerCreateDTO);
     }
 

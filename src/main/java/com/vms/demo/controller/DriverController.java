@@ -45,7 +45,7 @@ public class DriverController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DriverCreateDTO create(@Valid @RequestBody DriverCreateDTO driverCreateDTO) {
+    public DriverFullDTO create(@Valid @RequestBody DriverCreateDTO driverCreateDTO) {
         return driverService.createDriver(driverCreateDTO);
     }
 

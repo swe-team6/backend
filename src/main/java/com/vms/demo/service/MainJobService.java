@@ -67,7 +67,8 @@ public class MainJobService {
     public MainJobCreateDTO createMainJob(MainJobCreateDTO mainJobCreateDTO) {
         Optional<UserEntity> userOptional = userRepository.findById(mainJobCreateDTO.getMaintainerUserID());
         if (!userOptional.isPresent()) {
-            throw new EntityNotFoundException("Invalid user id (not found): " + mainJobCreateDTO.getMaintainerUserID());
+            throw new EntityNotFoundException(
+                    "Invalid fueler id (not found): " + mainJobCreateDTO.getMaintainerUserID());
         }
         UserEntity user = userOptional.get();
         if (user.getRole() != RoleType.MAINTAINER) {

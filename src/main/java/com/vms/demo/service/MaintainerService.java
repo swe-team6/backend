@@ -50,11 +50,11 @@ public class MaintainerService {
         return maintainerDTO;
     }
 
-    public MaintainerCreateDTO createMaintainer(MaintainerCreateDTO maintainerCreateDTO) {
+    public MaintainerFullDTO createMaintainer(MaintainerCreateDTO maintainerCreateDTO) {
         UserEntity maintainer = modelMapper.map(maintainerCreateDTO, UserEntity.class);
         maintainer.setRole(RoleType.MAINTAINER);
         maintainer = maintainerRepository.save(maintainer);
-        MaintainerCreateDTO dto = modelMapper.map(maintainer, MaintainerCreateDTO.class);
+        MaintainerFullDTO dto = modelMapper.map(maintainer, MaintainerFullDTO.class);
         return dto;
     }
 
@@ -98,7 +98,6 @@ public class MaintainerService {
     }
 
     public void deleteMaintainer(Long maintainerID) {
-        // TODO: fix
         maintainerRepository.deleteByUserIDAndRole(maintainerID, RoleType.MAINTAINER);
     }
 }
