@@ -5,7 +5,14 @@ import java.util.Set;
 import com.vms.demo.types.CarStatus;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,13 +48,13 @@ public class CarEntity {
     @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
     private BiddingEntity bidding;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private Set<DriverHistoryEntity> histories;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private Set<MainJobEntity> maintenanceJobs;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private Set<FuelJobEntity> fuelingJobs;
 
     @Override
