@@ -8,6 +8,7 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.vms.demo.dto.driver.DriverCreateDTO;
@@ -46,7 +47,7 @@ public class DriverService {
     }
 
     public List<DriverFullDTO> getAllDrivers() {
-        List<DriverEntity> drivers = driverRepository.findAll();
+        List<DriverEntity> drivers = driverRepository.findAll(Sort.by(Sort.Direction.ASC, "userID"));
         return modelMapper.map(drivers, new TypeToken<List<DriverFullDTO>>() {
         }.getType());
     }
@@ -78,7 +79,6 @@ public class DriverService {
 
     public DriverCreateDTO createDriver(DriverCreateDTO driverCreateDTO) {
         UserEntity user = modelMapper.map(driverCreateDTO, UserEntity.class);
-        System.out.println(user);
         user.setRole(RoleType.DRIVER);
         DriverEntity driver = user.getDriver();
         user.setDriver(null);
@@ -100,7 +100,6 @@ public class DriverService {
         }
         CarEntity car = carOptional.get();
         DriverEntity driver = driverOptional.get();
-        System.out.println(driver);
         // if (driver.getCar() != null) {
         // throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
         // "Requested driver is already assigned to a car.");

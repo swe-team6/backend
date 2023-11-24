@@ -9,6 +9,7 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -48,7 +49,7 @@ public class MainJobService {
     }
 
     public List<MainJobFullDTO> getAllMainJobs() {
-        List<MainJobEntity> mainJobs = mainJobRepository.findAll();
+        List<MainJobEntity> mainJobs = mainJobRepository.findAll(Sort.by(Sort.Direction.ASC, "dateTime"));
         return modelMapper.map(mainJobs, new TypeToken<List<MainJobFullDTO>>() {
         }.getType());
     }

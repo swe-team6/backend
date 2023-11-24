@@ -8,6 +8,7 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.vms.demo.dto.car.CarCreateDTO;
@@ -15,7 +16,6 @@ import com.vms.demo.dto.car.CarUpdateDTO;
 import com.vms.demo.dto.car.CarWithDriverDTO;
 import com.vms.demo.entity.CarEntity;
 import com.vms.demo.repository.CarRepository;
-import com.vms.demo.repository.DriverRepository;
 import com.vms.demo.types.CarStatus;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -25,9 +25,6 @@ public class CarService {
 
     @Autowired
     private CarRepository carRepository;
-
-    @Autowired
-    private DriverRepository driverRepository;
 
     private static ModelMapper modelMapper = new ModelMapper();
 
@@ -39,7 +36,7 @@ public class CarService {
     }
 
     public List<CarWithDriverDTO> getAllCars() {
-        List<CarEntity> cars = carRepository.findAll();
+        List<CarEntity> cars = carRepository.findAll(Sort.by(Sort.Direction.ASC, "carID"));
         return modelMapper.map(cars, new TypeToken<List<CarWithDriverDTO>>() {
         }.getType());
     }

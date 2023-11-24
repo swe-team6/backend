@@ -9,6 +9,7 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.vms.demo.dto.route.RouteCreateDTO;
@@ -49,7 +50,7 @@ public class RouteService {
     }
 
     public List<RouteFullDTO> getAllRoutes() {
-        List<RouteEntity> routes = routeRepository.findAll();
+        List<RouteEntity> routes = routeRepository.findAll(Sort.by(Sort.Direction.ASC, "dateCreated"));
         return modelMapper.map(routes, new TypeToken<List<RouteFullDTO>>() {
         }.getType());
     }
@@ -86,7 +87,6 @@ public class RouteService {
 
     public RouteCreateDTO createRoute(RouteCreateDTO routeCreateDTO) {
         RouteEntity e = modelMapper.map(routeCreateDTO, RouteEntity.class);
-        System.out.println(routeCreateDTO.getDriverID());
         e.setStatus(RouteStatus.ASSIGNED);
         e.setDateCreated(ZonedDateTime.now());
         Optional<DriverEntity> driverOptional = driverRepository.findById(routeCreateDTO.getDriverID());
@@ -102,6 +102,9 @@ public class RouteService {
 
     public RouteFullDTO updateRoute(Long routeID, RouteUpdateDTO routeUpdateDTO) {
         RouteEntity route = getRouteOrExcept(routeID);
+        if (routeUpdateDTO.getTask() != null) {
+            route.setTask(routeUpdateDTO.getTask());
+        }
         if (routeUpdateDTO.getDeparturePoint() != null) {
             route.setDeparturePoint(routeUpdateDTO.getDeparturePoint());
         }
