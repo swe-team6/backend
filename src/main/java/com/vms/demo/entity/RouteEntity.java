@@ -26,8 +26,12 @@ public class RouteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long routeID;
     private String task;
-    private String departurePoint;
-    private String destinationPoint;
+    private String departurePlaceName;
+    private String departureX;
+    private String departureY;
+    private String destinationPlaceName;
+    private String destinationX;
+    private String destinationY;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     private ZonedDateTime dateCreated;
     /**
@@ -43,8 +47,11 @@ public class RouteEntity {
 
     @Override
     public String toString() {
-        return "RouteEntity [routeID=" + routeID + ", task=" + task + ", departurePoint=" + departurePoint
-                + ", destinationPoint=" + destinationPoint + ", dateCreated=" + dateCreated + ", status=" + status
-                + ", gMapsData=" + gMapsData + ", driver=" + driver.getUserID() + "]";
+        return "RouteEntity [routeID=" + routeID + ", task=" + task + ", departurePlaceName=" + departurePlaceName
+                + ", departureX=" + departureX + ", departureY=" + departureY + ", destinationPlaceName="
+                + destinationPlaceName + ", destinationX=" + destinationX + ", destinationY=" + destinationY
+                + ", dateCreated=" + dateCreated + ", status=" + status + ", gMapsData=" + gMapsData + ", driver="
+                + (driver != null ? driver.getUserID() : null) + "]";
     }
+
 }

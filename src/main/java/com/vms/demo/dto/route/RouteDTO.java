@@ -19,8 +19,12 @@ import lombok.Setter;
 public class RouteDTO {
     private Long routeID;
     private String task;
-    private String departurePoint;
-    private String destinationPoint;
+    private String departurePlaceName;
+    private String departureX;
+    private String departureY;
+    private String destinationPlaceName;
+    private String destinationX;
+    private String destinationY;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     private ZonedDateTime dateCreated;
     /**

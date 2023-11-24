@@ -15,8 +15,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RouteUpdateDTO {
     private String task;
-    private String departurePoint;
-    private String destinationPoint;
+    private String departurePlaceName;
+    private String departureX;
+    private String departureY;
+    private String destinationPlaceName;
+    private String destinationX;
+    private String destinationY;
     /**
      * the status of the route. One of the following: Assigned, accepted, started,
      * completed, canceled

@@ -87,6 +87,7 @@ public class RouteService {
 
     public RouteCreateDTO createRoute(RouteCreateDTO routeCreateDTO) {
         RouteEntity e = modelMapper.map(routeCreateDTO, RouteEntity.class);
+        System.out.println(e);
         e.setStatus(RouteStatus.ASSIGNED);
         e.setDateCreated(ZonedDateTime.now());
         Optional<DriverEntity> driverOptional = driverRepository.findById(routeCreateDTO.getDriverID());
@@ -105,11 +106,23 @@ public class RouteService {
         if (routeUpdateDTO.getTask() != null) {
             route.setTask(routeUpdateDTO.getTask());
         }
-        if (routeUpdateDTO.getDeparturePoint() != null) {
-            route.setDeparturePoint(routeUpdateDTO.getDeparturePoint());
+        if (routeUpdateDTO.getDeparturePlaceName() != null) {
+            route.setDeparturePlaceName(routeUpdateDTO.getDeparturePlaceName());
         }
-        if (routeUpdateDTO.getDestinationPoint() != null) {
-            route.setDestinationPoint(routeUpdateDTO.getDestinationPoint());
+        if (routeUpdateDTO.getDestinationPlaceName() != null) {
+            route.setDestinationPlaceName(routeUpdateDTO.getDestinationPlaceName());
+        }
+        if (routeUpdateDTO.getDepartureX() != null) {
+            route.setDepartureX(routeUpdateDTO.getDepartureX());
+        }
+        if (routeUpdateDTO.getDestinationX() != null) {
+            route.setDestinationX(routeUpdateDTO.getDestinationX());
+        }
+        if (routeUpdateDTO.getDepartureY() != null) {
+            route.setDepartureY(routeUpdateDTO.getDepartureY());
+        }
+        if (routeUpdateDTO.getDestinationY() != null) {
+            route.setDestinationY(routeUpdateDTO.getDestinationY());
         }
         if (routeUpdateDTO.getGMapsData() != null) {
             route.setGMapsData(routeUpdateDTO.getGMapsData());
