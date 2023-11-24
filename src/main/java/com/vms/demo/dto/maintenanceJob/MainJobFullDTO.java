@@ -31,7 +31,7 @@ public class MainJobFullDTO {
      * name of the replaced or concerned part
      */
     private String replacedPart;
-    // private Image img;
+    private String replacedImg;
     private CarDTO car;
     private MaintainerDTO maintainer;
 }

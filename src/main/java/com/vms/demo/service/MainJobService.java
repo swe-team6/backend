@@ -108,10 +108,9 @@ public class MainJobService {
         if (mainJobUpdateDTO.getReplacedPart() != null) {
             mainJob.setReplacedPart(mainJobUpdateDTO.getReplacedPart());
         }
-        // TODO
-        // if (mainJobUpdateDTO.getPictureUrl() != null) {
-        // mainJob.setPictureUrl(mainJobUpdateDTO.getPictureUrl());
-        // }
+        if (mainJobUpdateDTO.getReplacedImg() != null) {
+            mainJob.setReplacedImg(mainJobUpdateDTO.getReplacedImg());
+        }
         mainJob = mainJobRepository.save(mainJob);
         MainJobFullDTO mainJobDTO = modelMapper.map(mainJob, MainJobFullDTO.class);
         return mainJobDTO;

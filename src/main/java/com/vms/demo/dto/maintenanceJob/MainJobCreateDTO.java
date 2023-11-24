@@ -24,5 +24,5 @@ public class MainJobCreateDTO {
      * name of the replaced or concerned part
      */
     private String replacedPart;
-    // private Image img;
+    private String replacedImg;
 }

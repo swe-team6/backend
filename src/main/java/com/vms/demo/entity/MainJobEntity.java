@@ -36,7 +36,7 @@ public class MainJobEntity {
      * name of the replaced or concerned part
      */
     private String replacedPart;
-    // private Image replacedImg;
+    private String replacedImg;
 
     @ManyToOne
     @JoinColumn(name = "car_id", nullable = true)
