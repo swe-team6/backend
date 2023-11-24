@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PreRemove;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -57,10 +56,10 @@ public class UserEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private DriverEntity chat;
 
-    @OneToMany(mappedBy = "maintainer")
+    @OneToMany(mappedBy = "maintainer", cascade = CascadeType.ALL)
     private Set<MainJobEntity> maintenanceJobs;
 
-    @OneToMany(mappedBy = "fueler")
+    @OneToMany(mappedBy = "fueler", cascade = CascadeType.ALL)
     private Set<FuelJobEntity> fuelingJobs;
 
     @Override
@@ -72,15 +71,4 @@ public class UserEntity {
                 + fuelingJobs + "]";
     }
 
-    @PreRemove
-    public void preRemove() {
-        for (MainJobEntity job : maintenanceJobs) {
-            job.setMaintainer(null);
-        }
-        this.maintenanceJobs = null;
-        for (FuelJobEntity job : fuelingJobs) {
-            job.setFueler(null);
-        }
-        this.fuelingJobs = null;
-    }
 }
