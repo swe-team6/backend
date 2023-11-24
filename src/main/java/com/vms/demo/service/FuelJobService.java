@@ -18,9 +18,11 @@ import com.vms.demo.dto.fuelingJob.FuelJobCreateDTO;
 import com.vms.demo.dto.fuelingJob.FuelJobFullDTO;
 import com.vms.demo.dto.fuelingJob.FuelJobUpdateDTO;
 import com.vms.demo.entity.CarEntity;
+import com.vms.demo.entity.DriverEntity;
 import com.vms.demo.entity.FuelJobEntity;
 import com.vms.demo.entity.UserEntity;
 import com.vms.demo.repository.CarRepository;
+import com.vms.demo.repository.DriverRepository;
 import com.vms.demo.repository.FuelJobRepository;
 import com.vms.demo.repository.UserRepository;
 import com.vms.demo.types.RoleType;
@@ -38,6 +40,9 @@ public class FuelJobService {
 
     @Autowired
     private CarRepository carRepository;
+
+    @Autowired
+    private DriverRepository driverRepository;
 
     private static ModelMapper modelMapper = new ModelMapper();
 
@@ -65,12 +70,12 @@ public class FuelJobService {
     }
 
     public FuelJobCreateDTO createFuelJob(FuelJobCreateDTO fuelJobCreateDTO) {
-        Optional<UserEntity> userOptional = userRepository.findById(fuelJobCreateDTO.getFuelerID());
+        Optional<UserEntity> userOptional = userRepository.findById(fuelJobCreateDTO.getFuelerUserID());
         if (!userOptional.isPresent()) {
-            throw new EntityNotFoundException("Invalid user id (not found): " + fuelJobCreateDTO.getFuelerID());
+            throw new EntityNotFoundException("Invalid fueler id (not found): " + fuelJobCreateDTO.getFuelerUserID());
         }
         UserEntity user = userOptional.get();
-        if (user.getRole() != RoleType.MAINTAINER) {
+        if (user.getRole() != RoleType.FUELER) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Requested user is not a maintainer.");
         }
@@ -79,11 +84,16 @@ public class FuelJobService {
             throw new EntityNotFoundException("Invalid car id (not found): " + fuelJobCreateDTO.getCarID());
         }
         CarEntity car = carOptional.get();
-
+        Optional<DriverEntity> driverOptional = driverRepository.findById(fuelJobCreateDTO.getDriverID());
+        if (!driverOptional.isPresent()) {
+            throw new EntityNotFoundException("Invalid driver id (not found): " + fuelJobCreateDTO.getDriverID());
+        }
+        DriverEntity driver = driverOptional.get();
         FuelJobEntity fuelJob = modelMapper.map(fuelJobCreateDTO, FuelJobEntity.class);
         fuelJob.setDateTime(ZonedDateTime.now());
         fuelJob.setCar(car);
         fuelJob.setFueler(user);
+        fuelJob.setDriver(driver);
 
         fuelJob = fuelJobRepository.save(fuelJob);
         FuelJobCreateDTO dto = modelMapper.map(fuelJob, FuelJobCreateDTO.class);
@@ -101,9 +111,6 @@ public class FuelJobService {
         }
         if (fuelJobUpdateDTO.getFuelCost() != 0) {
             fuelJob.setFuelCost(fuelJobUpdateDTO.getFuelCost());
-        }
-        if (fuelJobUpdateDTO.getDateTime() != null) {
-            fuelJob.setDateTime(fuelJobUpdateDTO.getDateTime());
         }
         if (fuelJobUpdateDTO.getStationName() != null) {
             fuelJob.setStationName(fuelJobUpdateDTO.getStationName());
