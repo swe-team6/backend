@@ -36,6 +36,7 @@ class DriverUserDTO {
     private String firstName;
     private Long govID;
     private String email;
+    private String pictureUrl;
 }
 
 @Getter
