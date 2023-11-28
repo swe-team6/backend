@@ -9,7 +9,9 @@ import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.vms.demo.dto.car.CarCreateDTO;
 import com.vms.demo.dto.car.CarUpdateDTO;
@@ -91,6 +93,10 @@ public class CarService {
             car.setMileage(carUpdateDTO.getMileage());
         }
         if (carUpdateDTO.getStatus() != null) {
+            if (carUpdateDTO.getStatus() == CarStatus.ACTIVE && car.getDriver() == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "Car status cannot be Active without a driver");
+            }
             car.setStatus(carUpdateDTO.getStatus());
         }
         if (carUpdateDTO.getMileageInterval() != 0) {
