@@ -56,7 +56,7 @@ public class DriverController {
     }
 
     @PostMapping("{driverID}/assignCar")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public DriverFullDTO assignCar(@PathVariable Long driverID, Long carID) {
         return driverService.assignCar(driverID, carID);
     }

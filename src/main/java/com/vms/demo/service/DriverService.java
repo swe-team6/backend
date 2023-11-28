@@ -121,6 +121,7 @@ public class DriverService {
         }
         DriverEntity driver = driverOptional.get();
         driver.setCar(null);
+        driver = driverRepository.save(driver);
         DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
         return driverDTO;
     }
