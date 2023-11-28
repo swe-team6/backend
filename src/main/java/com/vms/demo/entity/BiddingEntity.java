@@ -4,8 +4,16 @@ import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vms.demo.types.BiddingStatus;
+import com.vms.demo.types.CarStatus;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PreRemove;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +38,20 @@ public class BiddingEntity {
     @OneToOne
     @JoinColumn(name = "car_id", referencedColumnName = "car_id")
     private CarEntity car;
+
+    @PreRemove
+    public void preRemove() {
+        if (this.getCar() != null) {
+            if (this.getStatus() != BiddingStatus.CLOSED) {
+                this.car.setStatus(CarStatus.INACTIVE);
+            }
+            this.car.setBidding(null);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "BiddingEntity [biddingID=" + biddingID + ", dateCreated=" + dateCreated + ", status=" + status
+                + ", info=" + info + ", car=" + ((car == null) ? null : car.getCarID()) + "]";
+    }
 }
