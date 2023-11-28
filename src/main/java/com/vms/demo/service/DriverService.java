@@ -9,7 +9,9 @@ import org.modelmapper.config.Configuration;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.vms.demo.dto.driver.DriverCreateDTO;
 import com.vms.demo.dto.driver.DriverFullDTO;
@@ -21,6 +23,7 @@ import com.vms.demo.entity.UserEntity;
 import com.vms.demo.repository.CarRepository;
 import com.vms.demo.repository.DriverRepository;
 import com.vms.demo.repository.UserRepository;
+import com.vms.demo.types.CarStatus;
 import com.vms.demo.types.RoleType;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -107,9 +110,16 @@ public class DriverService {
         // throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
         // "Requested driver is already assigned to a car.");
         // }
-
+        if (car.getStatus() != CarStatus.INACTIVE || car.getStatus() != CarStatus.ACTIVE) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Requested car is either on auction or already sold.");
+        }
         driver.setCar(car);
         driver = driverRepository.save(driver);
+        if (car.getStatus() == CarStatus.INACTIVE) {
+            car.setStatus(CarStatus.ACTIVE);
+            carRepository.save(car);
+        }
         DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
         return driverDTO;
     }
@@ -120,6 +130,11 @@ public class DriverService {
             throw new EntityNotFoundException("Driver not found with id: " + driverID);
         }
         DriverEntity driver = driverOptional.get();
+        if (driver.getCar() != null){
+            CarEntity car = driver.getCar();
+            car.setStatus(CarStatus.INACTIVE);
+            carRepository.save(car);
+        }
         driver.setCar(null);
         driver = driverRepository.save(driver);
         DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
