@@ -47,6 +47,7 @@ public class MessageService {
 
     public MessageDTO createMessage(MessageCreateDTO messageCreateDTO) {
         MessageEntity message = modelMapper.map(messageCreateDTO, MessageEntity.class);
+        message.setMessageID(null);
         message.setIsRead(false);
         message.setSentTime(ZonedDateTime.now());
         message = messageRepository.save(message);
