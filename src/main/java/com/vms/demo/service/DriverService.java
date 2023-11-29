@@ -110,7 +110,7 @@ public class DriverService {
         // throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
         // "Requested driver is already assigned to a car.");
         // }
-        if (car.getStatus() != CarStatus.INACTIVE || car.getStatus() != CarStatus.ACTIVE) {
+        if (car.getStatus() != CarStatus.INACTIVE && car.getStatus() != CarStatus.ACTIVE) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Requested car is either on auction or already sold.");
         }
@@ -130,7 +130,7 @@ public class DriverService {
             throw new EntityNotFoundException("Driver not found with id: " + driverID);
         }
         DriverEntity driver = driverOptional.get();
-        if (driver.getCar() != null){
+        if (driver.getCar() != null) {
             CarEntity car = driver.getCar();
             car.setStatus(CarStatus.INACTIVE);
             carRepository.save(car);
