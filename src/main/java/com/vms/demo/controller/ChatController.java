@@ -49,7 +49,7 @@ public class ChatController {
 
     @PostMapping("{chatID}/messages/read")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void readMessages(@PathVariable Long chatID) {
-        messageService.readMessagesByChatID(chatID);
+    public void readMessages(@PathVariable Long chatID, @RequestParam Boolean requesterIsAdmin) {
+        messageService.readMessagesByChatID(chatID, !requesterIsAdmin);
     }
 }

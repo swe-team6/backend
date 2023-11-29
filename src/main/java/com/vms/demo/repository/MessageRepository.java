@@ -19,6 +19,6 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Messages msg SET msg.isRead = TRUE WHERE msg.chat_id = ?1", nativeQuery = true)
-    Long setReadByChatID(Long chatID);
+    @Query(value = "UPDATE Messages msg SET msg.isRead = TRUE WHERE msg.chat_id = ?1 AND msg.authorIsAdmin = ?2", nativeQuery = true)
+    Long setReadByChatID(Long chatID, Boolean authorIsAdmin);
 }

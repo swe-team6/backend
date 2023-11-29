@@ -41,8 +41,8 @@ public class MessageService {
         }.getType());
     }
 
-    public void readMessagesByChatID(Long chatID) {
-        messageRepository.setReadByChatID(chatID);
+    public void readMessagesByChatID(Long chatID, Boolean authorIsAdmin) {
+        messageRepository.setReadByChatID(chatID, authorIsAdmin);
     }
 
     public MessageDTO createMessage(MessageCreateDTO messageCreateDTO) {
