@@ -126,9 +126,9 @@
 			<properties>
 				<output.dir>/opt/tomcat/updated/webapps</output.dir>
 			</properties>
-			<build>
+			<!-- <build>
 				<directory>/opt/tomcat/updated/webapps</directory>
-			</build>
+			</build> -->
 		</profile>
 		<profile>
 			<id>development</id>
