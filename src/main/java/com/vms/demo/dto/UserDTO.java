@@ -21,6 +21,7 @@ public class UserDTO {
     private String lastName;
     private String middleName;
     private String firstName;
+    private String password;
     private Long govID;
     private String email;
     private Long chatID;

@@ -1,48 +1,46 @@
 package com.vms.demo.controller;
 
+import com.vms.demo.dto.Admin;
 import com.vms.demo.dto.LoginRequest;
-import com.vms.demo.entity.AdminEntity;
-import com.vms.demo.entity.UserEntity;
-import com.vms.demo.repository.AdminRepository;
-import com.vms.demo.repository.UserRepository;
+import com.vms.demo.dto.UserDTO;
+import com.vms.demo.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Optional;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("login")
 public class LoginController {
-    @Autowired
-    private AdminRepository adminRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private LoginService loginService;
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
 
-        Optional<AdminEntity> maybeAdmin = adminRepository.findByEmail(username);
-        if (maybeAdmin.isPresent()) {
-            AdminEntity admin = maybeAdmin.get();
+        try {
+            Admin admin = loginService.getAdminByEmail(username);
             if (password.equals(admin.getPassword())) {
                 return ResponseEntity.ok(admin);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password for admin");
             }
-        }
-        Optional<UserEntity> userOptional = userRepository.findByEmail(username);
-        if (userOptional.isPresent()) {
-            UserEntity user = userOptional.get();
-            if (password.equals(user.getPassword())) {
-                return ResponseEntity.ok(user);
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password for user");
+        } catch (EntityNotFoundException adminNotFoundException) {
+            try {
+                UserDTO user = loginService.getUserByEmail(username);
+                if (password.equals(user.getPassword())) {
+                    return ResponseEntity.ok(user);
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password for user");
+                }
+            } catch (EntityNotFoundException userNotFoundException) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
             }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
 }

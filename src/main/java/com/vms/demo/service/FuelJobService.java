@@ -61,7 +61,7 @@ public class FuelJobService {
 
     public FuelJobFullDTO getFuelJobById(Long fuelJobID) {
         Optional<FuelJobEntity> fuelJobOptional = fuelJobRepository.findById(fuelJobID);
-        if (!fuelJobOptional.isPresent()) {
+        if (fuelJobOptional.isEmpty()) {
             throw new EntityNotFoundException("FuelJob not found with id: " + fuelJobID);
         }
         FuelJobEntity fuelJob = fuelJobOptional.get();
@@ -80,12 +80,12 @@ public class FuelJobService {
                     "Requested user is not a maintainer.");
         }
         Optional<CarEntity> carOptional = carRepository.findById(fuelJobCreateDTO.getCarID());
-        if (!carOptional.isPresent()) {
+        if (carOptional.isEmpty()) {
             throw new EntityNotFoundException("Invalid car id (not found): " + fuelJobCreateDTO.getCarID());
         }
         CarEntity car = carOptional.get();
         Optional<DriverEntity> driverOptional = driverRepository.findById(fuelJobCreateDTO.getDriverID());
-        if (!driverOptional.isPresent()) {
+        if (driverOptional.isEmpty()) {
             throw new EntityNotFoundException("Invalid driver id (not found): " + fuelJobCreateDTO.getDriverID());
         }
         DriverEntity driver = driverOptional.get();
@@ -96,13 +96,12 @@ public class FuelJobService {
         fuelJob.setDriver(driver);
 
         fuelJob = fuelJobRepository.save(fuelJob);
-        FuelJobCreateDTO dto = modelMapper.map(fuelJob, FuelJobCreateDTO.class);
-        return dto;
+        return modelMapper.map(fuelJob, FuelJobCreateDTO.class);
     }
 
     public FuelJobFullDTO updateFuelJob(Long fuelJobID, FuelJobUpdateDTO fuelJobUpdateDTO) {
         Optional<FuelJobEntity> fuelJobOptional = fuelJobRepository.findById(fuelJobID);
-        if (!fuelJobOptional.isPresent()) {
+        if (fuelJobOptional.isEmpty()) {
             throw new EntityNotFoundException("FuelJob not found with id: " + fuelJobID);
         }
         FuelJobEntity fuelJob = fuelJobOptional.get();
@@ -128,8 +127,7 @@ public class FuelJobService {
             fuelJob.setLitersAfter(fuelJobUpdateDTO.getLitersAfter());
         }
         fuelJob = fuelJobRepository.save(fuelJob);
-        FuelJobFullDTO fuelJobDTO = modelMapper.map(fuelJob, FuelJobFullDTO.class);
-        return fuelJobDTO;
+        return modelMapper.map(fuelJob, FuelJobFullDTO.class);
     }
 
     public void deleteFuelJob(Long fuelJobID) {
