@@ -2,8 +2,8 @@ package com.vms.demo.entity;
 
 import java.util.Set;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,7 +36,7 @@ public class DriverEntity {
      */
     private int totalDistance;
     /**
-     * total time spent on the task.
+     * total time spent on the task, in seconds.
      */
     private long totalTime;
     private int jobsDone;
