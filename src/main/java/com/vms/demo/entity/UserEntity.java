@@ -2,6 +2,7 @@ package com.vms.demo.entity;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vms.demo.types.RoleType;
 
 import jakarta.persistence.CascadeType;
@@ -52,6 +53,7 @@ public class UserEntity {
     private String pictureUrl;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     @PrimaryKeyJoinColumn
     private DriverEntity driver;
 
