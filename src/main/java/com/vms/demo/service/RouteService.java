@@ -87,7 +87,6 @@ public class RouteService {
 
     public RouteCreateDTO createRoute(RouteCreateDTO routeCreateDTO) {
         RouteEntity e = modelMapper.map(routeCreateDTO, RouteEntity.class);
-        System.out.println(e);
         e.setStatus(RouteStatus.ASSIGNED);
         e.setDateCreated(ZonedDateTime.now());
         Optional<DriverEntity> driverOptional = driverRepository.findById(routeCreateDTO.getDriverID());

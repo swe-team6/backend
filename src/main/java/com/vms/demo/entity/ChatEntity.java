@@ -5,7 +5,16 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,5 +38,6 @@ public class ChatEntity {
     private UserEntity user;
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
+    @OrderBy("sentTime DESC")
     private Set<MessageEntity> messages;
 }
