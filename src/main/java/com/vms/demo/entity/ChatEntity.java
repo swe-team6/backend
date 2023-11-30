@@ -40,4 +40,11 @@ public class ChatEntity {
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
     @OrderBy("sentTime DESC")
     private Set<MessageEntity> messages;
+
+    @Override
+    public String toString() {
+        return "ChatEntity [chatID=" + chatID + ", lastUpdated=" + lastUpdated + ", user="
+                + (user != null ? user.getUserID() : null) + ", messages="
+                + messages + "]";
+    }
 }

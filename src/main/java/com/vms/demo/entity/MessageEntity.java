@@ -35,4 +35,11 @@ public class MessageEntity {
     @ManyToOne
     @JoinColumn(name = "chat_id", nullable = false)
     private ChatEntity chat;
+
+    @Override
+    public String toString() {
+        return "MessageEntity [messageID=" + messageID + ", text=" + text + ", authorIsAdmin=" + authorIsAdmin
+                + ", sentTime=" + sentTime + ", isRead=" + isRead + ", chat=" + (chat != null ? chat.getChatID() : null)
+                + "]";
+    }
 }
