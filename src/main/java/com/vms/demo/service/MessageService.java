@@ -2,6 +2,7 @@ package com.vms.demo.service;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -16,6 +17,8 @@ import com.vms.demo.entity.ChatEntity;
 import com.vms.demo.entity.MessageEntity;
 import com.vms.demo.repository.ChatRepository;
 import com.vms.demo.repository.MessageRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class MessageService {
@@ -51,7 +54,11 @@ public class MessageService {
         message.setIsRead(false);
         message.setSentTime(ZonedDateTime.now());
         message = messageRepository.save(message);
-        ChatEntity chat = message.getChat();
+        Optional<ChatEntity> chatOptional = chatRepository.findById(messageCreateDTO.getChatID());
+        if (!chatOptional.isPresent()) {
+            throw new EntityNotFoundException("Chat not found with id: " + messageCreateDTO.getChatID());
+        }
+        ChatEntity chat = chatOptional.get();
         chat.setLastUpdated(ZonedDateTime.now());
         chatRepository.save(chat);
         return modelMapper.map(message, MessageDTO.class);
