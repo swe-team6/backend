@@ -26,6 +26,6 @@ public class DriverHistoryFullDTO {
     private int maintenanceCost;
 
     private CarDTO car;
-    private Long driverID;
+    private Long driverUserID;
     // private DriverDTO driver;
 }
