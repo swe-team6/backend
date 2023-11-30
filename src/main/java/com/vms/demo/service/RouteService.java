@@ -89,6 +89,7 @@ public class RouteService {
         driver.setJobsDone(driver.getJobsDone() + 1);
         long total = driver.getTotalTime() + route.getDateCreated().until(route.getDateCompleted(), ChronoUnit.SECONDS);
         driver.setTotalTime(total);
+        driver.setTotalDistance(driver.getTotalDistance() + route.getDistance());
         driverRepository.save(driver);
         routeRepository.save(route);
     }
@@ -101,6 +102,7 @@ public class RouteService {
 
     public RouteCreateDTO createRoute(RouteCreateDTO routeCreateDTO) {
         RouteEntity e = modelMapper.map(routeCreateDTO, RouteEntity.class);
+        e.setRouteID(null);
         e.setStatus(RouteStatus.ASSIGNED);
         e.setDateCreated(ZonedDateTime.now());
         Optional<DriverEntity> driverOptional = driverRepository.findById(routeCreateDTO.getDriverID());
