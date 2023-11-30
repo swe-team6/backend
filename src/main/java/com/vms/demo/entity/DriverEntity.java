@@ -32,7 +32,7 @@ public class DriverEntity {
     /**
      * in kilometers
      */
-    private int totalDistance;
+    private float totalDistance;
     /**
      * total time spent on the task, in seconds.
      */

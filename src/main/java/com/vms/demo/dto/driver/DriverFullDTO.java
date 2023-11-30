@@ -16,7 +16,7 @@ import lombok.Setter;
 public class DriverFullDTO {
     private Long userID;
     private String drivingLicense;
-    private int totalDistance;
+    private float totalDistance;
     private Long totalTime;
     private int jobsDone;
     private DriverUserDTO user;

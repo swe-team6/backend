@@ -22,4 +22,5 @@ public class DriverUpdateDTO {
     private Long govID;
     private String pictureUrl;
     private String drivingLicense;
+    private float totalDistance;
 }

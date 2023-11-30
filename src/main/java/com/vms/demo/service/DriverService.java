@@ -152,6 +152,9 @@ public class DriverService {
         if (driverUpdateDTO.getDrivingLicense() != null) {
             driver.setDrivingLicense(driverUpdateDTO.getDrivingLicense());
         }
+        if (driverUpdateDTO.getTotalDistance() != 0) {
+            driver.setTotalDistance(driverUpdateDTO.getTotalDistance());
+        }
         if (driverUpdateDTO.getPhoneNumber() != null) {
             user.setPhoneNumber(driverUpdateDTO.getPhoneNumber());
         }
