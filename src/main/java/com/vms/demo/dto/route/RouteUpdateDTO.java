@@ -26,6 +26,6 @@ public class RouteUpdateDTO {
      * completed, canceled
      */
     private RouteStatus status;
-    private String gMapsData;
+    private float distance;
     private Long driverID;
 }

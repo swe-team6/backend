@@ -19,6 +19,7 @@ import com.vms.demo.dto.fuelingJob.FuelJobFullDTO;
 import com.vms.demo.dto.fuelingJob.FuelJobUpdateDTO;
 import com.vms.demo.entity.CarEntity;
 import com.vms.demo.entity.DriverEntity;
+import com.vms.demo.entity.DriverHistoryEntity;
 import com.vms.demo.entity.FuelJobEntity;
 import com.vms.demo.entity.UserEntity;
 import com.vms.demo.repository.CarRepository;
@@ -43,6 +44,9 @@ public class FuelJobService {
 
     @Autowired
     private DriverRepository driverRepository;
+
+    @Autowired
+    private DriverHistoryService driverHistoryService;
 
     private static ModelMapper modelMapper = new ModelMapper();
 
@@ -94,8 +98,12 @@ public class FuelJobService {
         fuelJob.setCar(car);
         fuelJob.setFueler(user);
         fuelJob.setDriver(driver);
-
         fuelJob = fuelJobRepository.save(fuelJob);
+
+        if (car.getDriver() != null) {
+            DriverHistoryEntity history = driverHistoryService.getEntity(car.getDriver(), car);
+            history.setFuelConsumption(history.getFuelConsumption() + fuelJob.getFuelAmount());
+        }
         return modelMapper.map(fuelJob, FuelJobCreateDTO.class);
     }
 

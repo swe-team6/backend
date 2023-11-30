@@ -1,6 +1,7 @@
 package com.vms.demo.service;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +56,13 @@ public class RouteService {
         }.getType());
     }
 
+    public List<RouteFullDTO> getCompletedRoutes(Long driverID) {
+        List<RouteEntity> routes = routeRepository.findByDriver_UserIDAndStatus(driverID, RouteStatus.COMPLETED,
+                Sort.by(Sort.Direction.ASC, "dateCreated"));
+        return modelMapper.map(routes, new TypeToken<List<RouteFullDTO>>() {
+        }.getType());
+    }
+
     public RouteFullDTO getRouteById(Long routeID) {
         RouteEntity route = getRouteOrExcept(routeID);
         RouteFullDTO routeDTO = modelMapper.map(route, RouteFullDTO.class);
@@ -76,6 +84,12 @@ public class RouteService {
     public void completeRouteById(Long routeID) {
         RouteEntity route = getRouteOrExcept(routeID);
         route.setStatus(RouteStatus.COMPLETED);
+        route.setDateCompleted(ZonedDateTime.now());
+        DriverEntity driver = route.getDriver();
+        driver.setJobsDone(driver.getJobsDone() + 1);
+        long total = driver.getTotalTime() + route.getDateCreated().until(route.getDateCompleted(), ChronoUnit.SECONDS);
+        driver.setTotalTime(total);
+        driverRepository.save(driver);
         routeRepository.save(route);
     }
 
@@ -123,11 +137,8 @@ public class RouteService {
         if (routeUpdateDTO.getDestinationY() != null) {
             route.setDestinationY(routeUpdateDTO.getDestinationY());
         }
-        if (routeUpdateDTO.getGMapsData() != null) {
-            route.setGMapsData(routeUpdateDTO.getGMapsData());
-        }
-        if (routeUpdateDTO.getStatus() != null) {
-            route.setStatus(routeUpdateDTO.getStatus());
+        if (routeUpdateDTO.getDistance() != 0) {
+            route.setDistance(routeUpdateDTO.getDistance());
         }
         if (routeUpdateDTO.getDriverID() != null) {
             Optional<DriverEntity> driverOptional = driverRepository.findById(routeUpdateDTO.getDriverID());

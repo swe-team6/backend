@@ -28,12 +28,14 @@ public class RouteFullDTO {
     private String destinationY;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     private ZonedDateTime dateCreated;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
+    private ZonedDateTime dateCompleted;
     /**
      * the status of the route. One of the following: Assigned, accepted, started,
      * completed, canceled
      */
     private RouteStatus status;
-    private String gMapsData;
+    private float distance;
 
     private DriverFullDTO driver;
 }

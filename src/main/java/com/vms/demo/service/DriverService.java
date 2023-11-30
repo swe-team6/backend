@@ -40,6 +40,9 @@ public class DriverService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private DriverHistoryService driverHistoryService;
+
     private static ModelMapper modelMapper = new ModelMapper();
 
     public static void main(String[] args) {
@@ -106,13 +109,17 @@ public class DriverService {
         }
         CarEntity car = carOptional.get();
         DriverEntity driver = driverOptional.get();
-        // if (driver.getCar() != null) {
-        // throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-        // "Requested driver is already assigned to a car.");
-        // }
+        if (driver.getCar() == car) {
+            DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
+            return driverDTO;
+        }
         if (car.getStatus() != CarStatus.INACTIVE && car.getStatus() != CarStatus.ACTIVE) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Requested car is either on auction or already sold.");
+        }
+        CarEntity oldCar = driver.getCar();
+        if (oldCar != null) {
+            driverHistoryService.setRemovedDate(driver, oldCar);
         }
         driver.setCar(car);
         driver = driverRepository.save(driver);
@@ -120,6 +127,7 @@ public class DriverService {
             car.setStatus(CarStatus.ACTIVE);
             carRepository.save(car);
         }
+        driverHistoryService.createEntity(driver, car);
         DriverFullDTO driverDTO = modelMapper.map(driver, DriverFullDTO.class);
         return driverDTO;
     }
@@ -133,7 +141,8 @@ public class DriverService {
         if (driver.getCar() != null) {
             CarEntity car = driver.getCar();
             car.setStatus(CarStatus.INACTIVE);
-            carRepository.save(car);
+            car = carRepository.save(car);
+            driverHistoryService.setRemovedDate(driver, car);
         }
         driver.setCar(null);
         driver = driverRepository.save(driver);

@@ -5,7 +5,13 @@ import java.time.ZonedDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vms.demo.types.RouteStatus;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,12 +36,14 @@ public class RouteEntity {
     private String destinationY;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     private ZonedDateTime dateCreated;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
+    private ZonedDateTime dateCompleted;
     /**
      * the status of the route. One of the following: Assigned, accepted, started,
      * completed, canceled
      */
     private RouteStatus status;
-    private String gMapsData;
+    private float distance;
 
     @ManyToOne
     @JoinColumn(name = "driver_id", nullable = false)
@@ -46,7 +54,7 @@ public class RouteEntity {
         return "RouteEntity [routeID=" + routeID + ", task=" + task + ", departurePlaceName=" + departurePlaceName
                 + ", departureX=" + departureX + ", departureY=" + departureY + ", destinationPlaceName="
                 + destinationPlaceName + ", destinationX=" + destinationX + ", destinationY=" + destinationY
-                + ", dateCreated=" + dateCreated + ", status=" + status + ", gMapsData=" + gMapsData + ", driver="
+                + ", dateCreated=" + dateCreated + ", status=" + status + ", distance=" + distance + ", driver="
                 + (driver != null ? driver.getUserID() : null) + "]";
     }
 

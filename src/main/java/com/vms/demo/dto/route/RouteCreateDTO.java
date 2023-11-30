@@ -23,6 +23,6 @@ public class RouteCreateDTO {
      * the status of the route. One of the following: Assigned, accepted, started,
      * completed, canceled
      */
-    private String gMapsData;
+    private float distance;
     private Long driverID;
 }

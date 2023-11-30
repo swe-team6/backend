@@ -18,6 +18,7 @@ import com.vms.demo.dto.maintenanceJob.MainJobCreateDTO;
 import com.vms.demo.dto.maintenanceJob.MainJobFullDTO;
 import com.vms.demo.dto.maintenanceJob.MainJobUpdateDTO;
 import com.vms.demo.entity.CarEntity;
+import com.vms.demo.entity.DriverHistoryEntity;
 import com.vms.demo.entity.MainJobEntity;
 import com.vms.demo.entity.UserEntity;
 import com.vms.demo.repository.CarRepository;
@@ -38,6 +39,9 @@ public class MainJobService {
 
     @Autowired
     private CarRepository carRepository;
+
+    @Autowired
+    private DriverHistoryService driverHistoryService;
 
     private static ModelMapper modelMapper = new ModelMapper();
 
@@ -85,8 +89,12 @@ public class MainJobService {
         mainJob.setDateTime(ZonedDateTime.now());
         mainJob.setCar(car);
         mainJob.setMaintainer(user);
-
         mainJob = mainJobRepository.save(mainJob);
+
+        if (car.getDriver() != null) {
+            DriverHistoryEntity history = driverHistoryService.getEntity(car.getDriver(), car);
+            history.setMaintenanceCost(history.getMaintenanceCost() + mainJob.getCost());
+        }
         MainJobCreateDTO dto = modelMapper.map(mainJob, MainJobCreateDTO.class);
         return dto;
     }
