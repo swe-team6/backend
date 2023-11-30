@@ -71,4 +71,8 @@ public class ChatService {
         ChatFullDTO chatDTO = modelMapper.map(chat, ChatFullDTO.class);
         return chatDTO;
     }
+
+    public void deleteChatByID(Long chatID) {
+        chatRepository.deleteById(chatID);
+    }
 }
