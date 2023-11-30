@@ -5,6 +5,7 @@ import java.time.ZonedDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vms.demo.types.RouteStatus;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -43,6 +44,7 @@ public class RouteEntity {
      * completed, canceled
      */
     private RouteStatus status;
+    @Column(columnDefinition = "float default 0")
     private float distance;
 
     @ManyToOne
