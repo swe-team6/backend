@@ -30,7 +30,7 @@ public class ChatService {
     @Autowired
     private UserRepository userRepository;
 
-    private static ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     public static void main(String[] args) {
         modelMapper.getConfiguration()

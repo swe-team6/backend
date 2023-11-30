@@ -28,7 +28,7 @@ public class CarService {
     @Autowired
     private CarRepository carRepository;
 
-    private static ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     public static void main(String[] args) {
         modelMapper.getConfiguration()

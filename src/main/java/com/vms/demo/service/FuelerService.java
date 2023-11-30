@@ -25,7 +25,7 @@ public class FuelerService {
     @Autowired
     private FuelerRepository fuelerRepository;
 
-    private static ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     public static void main(String[] args) {
         modelMapper.getConfiguration()
@@ -46,16 +46,14 @@ public class FuelerService {
             throw new EntityNotFoundException("Fueler not found with id: " + fuelerID);
         }
         UserEntity fueler = fuelers.get(0);
-        FuelerFullDTO fuelerDTO = modelMapper.map(fueler, FuelerFullDTO.class);
-        return fuelerDTO;
+        return modelMapper.map(fueler, FuelerFullDTO.class);
     }
 
     public FuelerFullDTO createFueler(FuelerCreateDTO fuelerCreateDTO) {
         UserEntity fueler = modelMapper.map(fuelerCreateDTO, UserEntity.class);
         fueler.setRole(RoleType.FUELER);
         fueler = fuelerRepository.save(fueler);
-        FuelerFullDTO dto = modelMapper.map(fueler, FuelerFullDTO.class);
-        return dto;
+        return modelMapper.map(fueler, FuelerFullDTO.class);
     }
 
     public FuelerDTO updateFueler(Long fuelerID, FuelerUpdateDTO fuelerUpdateDTO) {
@@ -93,8 +91,7 @@ public class FuelerService {
             fueler.setPassword(fuelerUpdateDTO.getPassword());
         }
         fueler = fuelerRepository.save(fueler);
-        FuelerDTO fuelerDTO = modelMapper.map(fueler, FuelerDTO.class);
-        return fuelerDTO;
+        return modelMapper.map(fueler, FuelerDTO.class);
     }
 
     public void deleteFueler(Long fuelerID) {

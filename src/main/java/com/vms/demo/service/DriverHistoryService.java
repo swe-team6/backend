@@ -25,7 +25,7 @@ public class DriverHistoryService {
     @Autowired
     private DriverHistoryRepository driverHistoryRepository;
 
-    private static ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     public static void main(String[] args) {
         modelMapper.getConfiguration()

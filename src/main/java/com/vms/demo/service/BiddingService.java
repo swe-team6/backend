@@ -34,7 +34,7 @@ public class BiddingService {
     @Autowired
     private CarRepository carRepository;
 
-    private static ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     public static void main(String[] args) {
         modelMapper.getConfiguration()
@@ -51,30 +51,27 @@ public class BiddingService {
 
     public BiddingFullDTO getBiddingById(Long biddingID) {
         Optional<BiddingEntity> biddingOptional = biddingRepository.findById(biddingID);
-        if (!biddingOptional.isPresent()) {
+        if (biddingOptional.isEmpty()) {
             throw new EntityNotFoundException("Bidding not found with id: " + biddingID);
         }
         BiddingEntity bidding = biddingOptional.get();
-        BiddingFullDTO biddingDTO = modelMapper.map(bidding, BiddingFullDTO.class);
-        return biddingDTO;
+        return modelMapper.map(bidding, BiddingFullDTO.class);
     }
 
     public BiddingFullDTO createBidding(BiddingCreateDTO biddingCreateDTO) {
         BiddingEntity bidding = modelMapper.map(biddingCreateDTO, BiddingEntity.class);
         bidding.setBiddingID(null);
-        System.out.println(bidding.getCar());
         Long carID = biddingCreateDTO.getCarID();
         if (carID == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Car id is required to create a bidding");
         }
         Optional<CarEntity> carOptional = carRepository.findById(carID);
-        if (!carOptional.isPresent()) {
+        if (carOptional.isEmpty()) {
             throw new EntityNotFoundException("Car not found with id: " + carID);
         }
         CarEntity car = carOptional.get();
         if (car.getDriver() != null) {
-            // Assume car status is Active
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Requested car is assigned to a driver with id = " + car.getDriver().getUserID());
         }
@@ -93,13 +90,12 @@ public class BiddingService {
             car.setStatus(CarStatus.ON_AUCTION);
             carRepository.save(car);
         }
-        BiddingFullDTO dto = modelMapper.map(bidding, BiddingFullDTO.class);
-        return dto;
+        return modelMapper.map(bidding, BiddingFullDTO.class);
     }
 
     public BiddingFullDTO updateBidding(Long biddingID, BiddingUpdateDTO biddingUpdateDTO) {
         Optional<BiddingEntity> biddingOptional = biddingRepository.findById(biddingID);
-        if (!biddingOptional.isPresent()) {
+        if (biddingOptional.isEmpty()) {
             throw new EntityNotFoundException("Bidding not found with id: " + biddingID);
         }
         BiddingEntity bidding = biddingOptional.get();
@@ -115,14 +111,12 @@ public class BiddingService {
             bidding.setInfo(biddingUpdateDTO.getInfo());
         }
         bidding = biddingRepository.save(bidding);
-        if (car != null) {
-            if (bidding.getStatus() == BiddingStatus.CLOSED) {
+        if (car != null && (bidding.getStatus() == BiddingStatus.CLOSED)) {
                 car.setStatus(CarStatus.SOLD);
                 carRepository.save(car);
-            }
+
         }
-        BiddingFullDTO biddingDTO = modelMapper.map(bidding, BiddingFullDTO.class);
-        return biddingDTO;
+        return modelMapper.map(bidding, BiddingFullDTO.class);
     }
 
     public void deleteBidding(Long biddingID) {

@@ -16,5 +16,5 @@ public interface MaintainerRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findByRoleOrderByUserIDAsc(RoleType role);
 
     @Transactional
-    Long deleteByUserIDAndRole(Long userID, RoleType role);
+    void deleteByUserIDAndRole(Long userID, RoleType role);
 }

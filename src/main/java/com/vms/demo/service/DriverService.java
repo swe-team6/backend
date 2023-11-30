@@ -43,7 +43,7 @@ public class DriverService {
     @Autowired
     private DriverHistoryService driverHistoryService;
 
-    private static ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     public static void main(String[] args) {
         modelMapper.getConfiguration()
