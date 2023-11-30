@@ -18,6 +18,7 @@ import com.vms.demo.service.RouteService;
 public class ReportController {
     @Autowired
     private RouteService routeService;
+
     @Autowired
     private DriverHistoryService driverHistoryService;
 
@@ -27,7 +28,12 @@ public class ReportController {
     }
 
     @GetMapping("/{driverID}/histories")
-    public List<DriverHistoryFullDTO> getAllDriverHistorys(@PathVariable Long driverID) {
+    public List<DriverHistoryFullDTO> getAllDriverHistorysByDriverID(@PathVariable Long driverID) {
         return driverHistoryService.getDriverHistoryByDriverId(driverID);
+    }
+
+    @GetMapping("/driverHistories")
+    public List<DriverHistoryFullDTO> getAllDriverHistorys() {
+        return driverHistoryService.getAllDriverHistorys();
     }
 }
