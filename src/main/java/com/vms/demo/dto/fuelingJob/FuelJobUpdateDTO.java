@@ -12,11 +12,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FuelJobUpdateDTO {
-    private int fuelAmount;
+    private float fuelAmount;
     private int fuelCost;
     private String stationName;
     private int mileageBefore;
     private int mileageAfter;
-    private int litersBefore;
-    private int litersAfter;
+    private float litersBefore;
+    private float litersAfter;
 }

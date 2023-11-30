@@ -15,11 +15,11 @@ public class FuelJobCreateDTO {
     private Long carID;
     private Long fuelerUserID;
     private Long driverID;
-    private int fuelAmount;
+    private float fuelAmount;
     private int fuelCost;
     private String stationName;
     private int mileageBefore;
     private int mileageAfter;
-    private int litersBefore;
-    private int litersAfter;
+    private float litersBefore;
+    private float litersAfter;
 }

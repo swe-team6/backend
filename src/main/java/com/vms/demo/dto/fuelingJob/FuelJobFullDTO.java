@@ -20,15 +20,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FuelJobFullDTO {
     private Long fuelingJobID;
-    private int fuelAmount;
+    private float fuelAmount;
     private int fuelCost;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     private ZonedDateTime dateTime;
     private String stationName;
     private int mileageBefore;
     private int mileageAfter;
-    private int litersBefore;
-    private int litersAfter;
+    private float litersBefore;
+    private float litersAfter;
     private CarDTO car;
     private FuelerDTO fueler;
     private DriverDTO driver;
