@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vms.demo.dto.car.CarDTO;
+import com.vms.demo.dto.driver.DriverDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,5 +28,5 @@ public class DriverHistoryFullDTO {
 
     private CarDTO car;
     // private Long driverUserID;
-    // private DriverDTO driver;
+    private DriverDTO driver;
 }
